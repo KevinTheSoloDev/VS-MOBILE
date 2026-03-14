@@ -1,0 +1,11 @@
+/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/CMakeFiles/dnbootstrap.dir
+/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/CMakeFiles/edit_cache.dir
+/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/CMakeFiles/rebuild_cache.dir
+/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/glfw34/CMakeFiles/edit_cache.dir
+/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/glfw34/CMakeFiles/rebuild_cache.dir
+/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/glfw34/src/CMakeFiles/glfw.dir
+/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/glfw34/src/CMakeFiles/update_mappings.dir
+/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/glfw34/src/CMakeFiles/edit_cache.dir
+/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/glfw34/src/CMakeFiles/rebuild_cache.dir
+/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/glfw34/docs/CMakeFiles/edit_cache.dir
+/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/glfw34/docs/CMakeFiles/rebuild_cache.dir

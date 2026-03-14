@@ -1,0 +1,15 @@
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/include/GLFW/glfw3.h
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/include/GLFW/glfw3native.h
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/src/internal.h
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/src/platform.h
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/src/mappings.h
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/src/null_platform.h
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/src/null_joystick.h
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/src/posix_time.h
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/src/posix_thread.h
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/src/android_platform.h
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/src/android_joystick.h
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/src/mappings.h.in
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/CMake/GenerateMappings.cmake
+/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/glfw34/src/CMakeFiles/update_mappings
+/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/glfw34/src/CMakeFiles/update_mappings.rule

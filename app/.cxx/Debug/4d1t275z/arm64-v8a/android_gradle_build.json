@@ -1,0 +1,57 @@
+{
+  "buildFiles": [
+    "/workspaces/VS-MOBILE/app/src/main/cpp/CMakeLists.txt",
+    "/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/CMake/glfw3Config.cmake.in",
+    "/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/CMakeLists.txt",
+    "/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/docs/CMakeLists.txt",
+    "/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/src/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/codespace/android-sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/codespace/android-sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "dnbootstrap::@6890427a1f51a3e7e1df": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "dnbootstrap",
+      "output": "/workspaces/VS-MOBILE/app/build/intermediates/cxx/Debug/4d1t275z/obj/arm64-v8a/libdnbootstrap.so",
+      "runtimeFiles": [
+        "/workspaces/VS-MOBILE/app/build/intermediates/cxx/Debug/4d1t275z/obj/arm64-v8a/libglfw.so",
+        "/workspaces/VS-MOBILE/app/src/main/cpp/nethost/libnethost.so"
+      ]
+    },
+    "glfw::@5e31876cc968b409f778": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "glfw",
+      "output": "/workspaces/VS-MOBILE/app/build/intermediates/cxx/Debug/4d1t275z/obj/arm64-v8a/libglfw.so",
+      "runtimeFiles": []
+    },
+    "update_mappings::@5e31876cc968b409f778": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "update_mappings"
+    }
+  },
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "/home/codespace/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/bin/clang.lld",
+      "cppCompilerExecutable": "/home/codespace/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++.lld"
+    }
+  },
+  "cFileExtensions": [
+    "c"
+  ],
+  "cppFileExtensions": []
+}

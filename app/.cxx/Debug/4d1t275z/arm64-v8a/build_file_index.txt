@@ -1,0 +1,5 @@
+/workspaces/VS-MOBILE/app/src/main/cpp/CMakeLists.txt
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/CMake/glfw3Config.cmake.in
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/CMakeLists.txt
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/docs/CMakeLists.txt
+/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/src/CMakeLists.txt

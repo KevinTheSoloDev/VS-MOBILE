@@ -1,0 +1,5 @@
+/home/codespace/android-sdk/cmake/3.22.1/bin/ninja \
+  -C \
+  /workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a \
+  dnbootstrap \
+  glfw

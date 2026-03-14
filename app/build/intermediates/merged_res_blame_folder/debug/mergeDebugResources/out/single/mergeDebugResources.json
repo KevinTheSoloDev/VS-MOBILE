@@ -1,0 +1,82 @@
+[
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/drawable_grid_select_material.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/drawable/grid_select_material.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/layout_dialog_button_setup.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/layout/dialog_button_setup.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/layout_dialog_joystick_setup.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/layout/dialog_joystick_setup.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/drawable_btn_icon_backpack.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/drawable/btn_icon_backpack.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/layout_activity_main.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/layout/activity_main.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/drawable_btn_icon_keyboard.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/drawable/btn_icon_keyboard.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/layout_dialog_editor_base.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/layout/dialog_editor_base.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/layout_activity_manage_data.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/layout/activity_manage_data.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/drawable_button_style.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/drawable/button_style.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/drawable_select_empty_material.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/drawable/select_empty_material.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/drawable_btn_icon_stats.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/drawable/btn_icon_stats.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/drawable_btn_icon_mouse_left_button.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/drawable/btn_icon_mouse_left_button.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/layout_activity_assets_check.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/layout/activity_assets_check.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/layout_dialog_editor_input_config.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/layout/dialog_editor_input_config.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/layout_controls_editor.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/layout/controls_editor.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/drawable_btn_icon_mouse_right_button.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/drawable/btn_icon_mouse_right_button.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/layout_key_list_item.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/layout/key_list_item.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/layout_dialog_global_settings.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/layout/dialog_global_settings.xml"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/drawable_ic_mouse_pointer.webp.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/drawable/ic_mouse_pointer.webp"
+    },
+    {
+        "merged": "git.artdeell.dnbootstrap.app-debug-26:/drawable_btn_icon_map.xml.flat",
+        "source": "git.artdeell.dnbootstrap.app-main-28:/drawable/btn_icon_map.xml"
+    }
+]

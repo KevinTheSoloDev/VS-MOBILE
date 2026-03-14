@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/workspaces/VS-MOBILE/app/src/main/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="main" generated-set="main$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/workspaces/VS-MOBILE/app/src/main/res"><file path="/workspaces/VS-MOBILE/app/src/main/res/values/strings.xml" qualifiers=""><string name="app_name">dnbootstrap</string><string name="error">Error</string><string name="extract_runtime">Unpacking files. Please do not turn off your device</string><string name="require_game_copy">Please download a copy of Vintage Story 1.21.6 (Linux version: vs_client_linux-*.tar.gz) from the Client Area and then select it in your file manager using the button below.\n\n This application is EXPERIMENTAL and you may find BUGS or it may NOT WORK FOR YOU AT ALL.</string><string name="select">Select</string><string name="grid_layout_alignment_left">From left</string><string name="grid_layout_alignment_right">From right</string><string name="grid_layout_alignment_top">From top</string><string name="grid_layout_alignment_bottom">From bottom</string><string name="grid_layout_alignment_center">From center</string><string name="grid_layout_edit_title">Button settings</string><string name="grid_layout_edit_size">Button size</string><string name="grid_layout_edit_position_horizontal">Horizontal position</string><string name="grid_layout_edit_position_vertical">Vertical position</string><string name="grid_layout_edit_key_code">Key codes</string><string name="grid_layout_edit_show_in_game">Show in game</string><string name="grid_layout_edit_show_in_menus">Show in menus</string><string name="grid_layout_edit_sticky">Sticky</string><string name="grid_layout_edit_moves_cursor">Moves cursor</string><string name="grid_layout_edit_clone">Clone</string><string name="grid_layout_edit_delete">Delete</string><string name="grid_layout_edit_button_label">Label</string><string name="grid_layout_edit_background">Background</string><string name="grid_layout_edit_background_label_color">Color</string><string name="grid_layout_edit_background_label_icon">Icon</string><string name="grid_layout_edit_background_icon_description">Icon</string><string name="grid_layout_global_grid_pitch">Grid pitch</string><string name="grid_layout_global_auto_align">Automatically select alignment settings</string><string name="grid_layout_global_cursor_behavior">Cursor to touch position</string><string name="grid_layout_global_edit_title">Global settings</string><string name="grid_layout_global_add_button">Add button</string><string name="grid_layout_global_add_joystick">Add joystick</string><string name="grid_layout_global_save">Save</string><string name="grid_layout_global_exit">Exit</string><string name="grid_layout_global_must_have_editor_btn">The control layout must have a button to open the layout editor!</string><string name="grid_layout_editor_hint">Tap a button to edit its settings\nTap the grid to edit global settings and add buttons</string><string name="joystick_auto_center">Auto-center joystick handle</string><string name="grid_layout_show_in_game">Show in game</string><string name="grid_layout_show_in_menu">Show in menu</string><string name="manage_data_uninstall_game">Uninstall Vintage Story (preserves user data)</string><string name="manage_data_uninstall_components">Uninstall all components (preserves user data)</string><string name="manage_data_uninstall_everything">Clear all data (WILL DELETE YOUR SAVES)</string><string name="manage_data_share_log_file">Open data directory</string><string name="manage_data_done">Done!</string><string name="storageProviderAuthorities">git.artdeell.dnboostrap.gamefiles</string></file><file path="/workspaces/VS-MOBILE/app/src/main/res/values/attr.xml" qualifiers=""><declare-styleable name="ControlButton">
+        <attr format="integer" name="button_keycode"/>
+        <attr format="integer" name="button_keycode2"/>
+        <attr format="boolean" name="sticky"/>
+        <attr format="boolean" name="cursorPassThru"/>
+    </declare-styleable><declare-styleable name="ControlGridLayout_LayoutParams">
+        <attr format="enum" name="alignmentHorizontal">
+            <enum name="left" value="0"/>
+            <enum name="right" value="2"/>
+            <enum name="center" value="4"/>
+        </attr>
+        <attr format="enum" name="alignmentVertical">
+            <enum name="top" value="1"/>
+            <enum name="bottom" value="3"/>
+            <enum name="center" value="4"/>
+        </attr>
+        <attr format="integer" name="offsetHorizontal"/>
+        <attr format="integer" name="offsetVertical"/>
+    </declare-styleable><attr format="reference" name="controlButtonStyle"/><attr format="reference" name="joystickStyle"/><style name="AppTheme" parent="@style/Theme.AppCompat">
+        <item name="controlButtonStyle">@style/ControlButton</item>
+        <item name="joystickStyle">@style/Joystick</item>
+    </style><style name="ControlButton">
+        <item name="android:gravity">center</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:background">#3f000000</item>
+        <item name="android:width">64dp</item>
+        <item name="android:height">64dp</item>
+    </style><style name="Joystick">
+        <item name="android:background">#00000000</item>
+    </style><array name="horizontal_alignment_settings">
+        <item>@string/grid_layout_alignment_left</item>
+        <item>@string/grid_layout_alignment_right</item>
+        <item>@string/grid_layout_alignment_center</item>
+    </array><array name="vertical_alignment_settings">
+        <item>@string/grid_layout_alignment_top</item>
+        <item>@string/grid_layout_alignment_bottom</item>
+        <item>@string/grid_layout_alignment_center</item>
+    </array><dimen name="global_margin">6dp</dimen><dimen name="global_margin_half">3dp</dimen></file><file name="ic_mouse_pointer" path="/workspaces/VS-MOBILE/app/src/main/res/drawable/ic_mouse_pointer.webp" qualifiers="" type="drawable"/><file name="select_empty_material" path="/workspaces/VS-MOBILE/app/src/main/res/drawable/select_empty_material.xml" qualifiers="" type="drawable"/><file name="button_style" path="/workspaces/VS-MOBILE/app/src/main/res/drawable/button_style.xml" qualifiers="" type="drawable"/><file name="grid_select_material" path="/workspaces/VS-MOBILE/app/src/main/res/drawable/grid_select_material.xml" qualifiers="" type="drawable"/><file name="btn_icon_backpack" path="/workspaces/VS-MOBILE/app/src/main/res/drawable/btn_icon_backpack.xml" qualifiers="" type="drawable"/><file name="btn_icon_mouse_left_button" path="/workspaces/VS-MOBILE/app/src/main/res/drawable/btn_icon_mouse_left_button.xml" qualifiers="" type="drawable"/><file name="btn_icon_map" path="/workspaces/VS-MOBILE/app/src/main/res/drawable/btn_icon_map.xml" qualifiers="" type="drawable"/><file name="btn_icon_mouse_right_button" path="/workspaces/VS-MOBILE/app/src/main/res/drawable/btn_icon_mouse_right_button.xml" qualifiers="" type="drawable"/><file name="btn_icon_keyboard" path="/workspaces/VS-MOBILE/app/src/main/res/drawable/btn_icon_keyboard.xml" qualifiers="" type="drawable"/><file name="btn_icon_stats" path="/workspaces/VS-MOBILE/app/src/main/res/drawable/btn_icon_stats.xml" qualifiers="" type="drawable"/><file name="dialog_global_settings" path="/workspaces/VS-MOBILE/app/src/main/res/layout/dialog_global_settings.xml" qualifiers="" type="layout"/><file name="key_list_item" path="/workspaces/VS-MOBILE/app/src/main/res/layout/key_list_item.xml" qualifiers="" type="layout"/><file name="dialog_editor_base" path="/workspaces/VS-MOBILE/app/src/main/res/layout/dialog_editor_base.xml" qualifiers="" type="layout"/><file name="activity_main" path="/workspaces/VS-MOBILE/app/src/main/res/layout/activity_main.xml" qualifiers="" type="layout"/><file name="controls_editor" path="/workspaces/VS-MOBILE/app/src/main/res/layout/controls_editor.xml" qualifiers="" type="layout"/><file name="dialog_button_setup" path="/workspaces/VS-MOBILE/app/src/main/res/layout/dialog_button_setup.xml" qualifiers="" type="layout"/><file name="activity_manage_data" path="/workspaces/VS-MOBILE/app/src/main/res/layout/activity_manage_data.xml" qualifiers="" type="layout"/><file name="dialog_joystick_setup" path="/workspaces/VS-MOBILE/app/src/main/res/layout/dialog_joystick_setup.xml" qualifiers="" type="layout"/><file name="dialog_editor_input_config" path="/workspaces/VS-MOBILE/app/src/main/res/layout/dialog_editor_input_config.xml" qualifiers="" type="layout"/><file name="activity_assets_check" path="/workspaces/VS-MOBILE/app/src/main/res/layout/activity_assets_check.xml" qualifiers="" type="layout"/></source></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/workspaces/VS-MOBILE/app/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="debug" generated-set="debug$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/workspaces/VS-MOBILE/app/src/debug/res"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated$Generated" generated="true" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/workspaces/VS-MOBILE/app/build/generated/res/resValues/debug"/></dataSet><dataSet aapt-namespace="http://schemas.android.com/apk/res-auto" config="generated" generated-set="generated$Generated" ignore_pattern="!.svn:!.git:!.ds_store:!*.scc:.*:&lt;dir>_*:!CVS:!thumbs.db:!picasa.ini:!*~"><source path="/workspaces/VS-MOBILE/app/build/generated/res/resValues/debug"/></dataSet><mergedItems><configuration qualifiers=""><declare-styleable name="ControlGridLayout_LayoutParams">
+        <attr format="enum" name="alignmentHorizontal">
+            <enum name="left" value="0"/>
+            <enum name="right" value="2"/>
+            <enum name="center" value="4"/>
+        </attr>
+        <attr format="enum" name="alignmentVertical">
+            <enum name="top" value="1"/>
+            <enum name="bottom" value="3"/>
+            <enum name="center" value="4"/>
+        </attr>
+        <attr format="integer" name="offsetHorizontal"/>
+        <attr format="integer" name="offsetVertical"/>
+    </declare-styleable><declare-styleable name="ControlButton">
+        <attr format="integer" name="button_keycode"/>
+        <attr format="integer" name="button_keycode2"/>
+        <attr format="boolean" name="sticky"/>
+        <attr format="boolean" name="cursorPassThru"/>
+    </declare-styleable></configuration></mergedItems></merger>

@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "git.artdeell.dnbootstrap.app-mergeDebugResources-24:/values-v25/values-v25.xml",
+            "map": [
+                {
+                    "source": "/home/codespace/.gradle/caches/8.13/transforms/59b6e86a5878252b102beb054f89da59/transformed/appcompat-1.7.1/res/values-v25/values-v25.xml",
+                    "from": {
+                        "startLines": "2,3,4,6",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,126,209,308",
+                        "endLines": "2,3,5,7",
+                        "endColumns": "70,82,12,12",
+                        "endOffsets": "121,204,303,414"
+                    }
+                }
+            ]
+        }
+    ]
+}

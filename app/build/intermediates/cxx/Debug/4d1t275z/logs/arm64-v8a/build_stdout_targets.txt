@@ -1,8 +1,2 @@
 ninja: Entering directory `/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a'
-[1/3] Building C object glfw34/src/CMakeFiles/glfw.dir/android_window.c.o
-/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/src/android_window.c:225:12: warning: unused function 'translate_android_action_button' [-Wunused-function]
-  225 | static int translate_android_action_button(int32_t actionButton) {
-      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1 warning generated.
-[2/3] Linking C shared library /workspaces/VS-MOBILE/app/build/intermediates/cxx/Debug/4d1t275z/obj/arm64-v8a/libglfw.so
-[3/3] Linking C shared library /workspaces/VS-MOBILE/app/build/intermediates/cxx/Debug/4d1t275z/obj/arm64-v8a/libdnbootstrap.so
+ninja: no work to do.

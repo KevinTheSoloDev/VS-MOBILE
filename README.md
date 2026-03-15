@@ -1,24 +1,90 @@
-# **VS-MOBILE: TWEAKED**
+# VS-Mobile: Tweaked
 
-This is A fork of artdeells original VSMobile repo with some more contribution from [Temder](https://github.com/Temder) on GitHub. Temder added Joystick, and more features mainly in the hud layout editor. 
+A fork of [artdeell's dnbootstrap](https://github.com/VSMobile/dnbootstrap) with additional contributions from [Temder](https://github.com/Temder) and performance work by [Solo].
 
-## **What this version adds**
- •**Added Mouse_wheel_Scroll_Up/down function for hotbar selection. Manually creating numbers from 0 to 10 is no longer necessary, using two buttons will allow you to use all the hotbar slots.**
- 
- •**Performance Tweaks gaining an additional 40-50% fps boost on mid to high end devices**
- 
- •**Some parts of the code used to run unnecessary loops, this is now tweaked and device should. not heat up as much**
+> ⚠️ **This fork is still under active testing and may be unstable. Use at your own risk.**
+> For the stable upstream, see the [original dnbootstrap repo](https://github.com/VSMobile/dnbootstrap) and the [VS-Mobile root org](https://github.com/VSMobile).
 
+---
 
+## What's New in This Fork
 
- ### **Note this is still under testing and might crash or break original [GitHub repo of artdell](https://github.com/VSMobile/dnbootstrap) and [Root repo](https://github.com/VSMobile) is linked here*
+### 🖱️ Mouse Scroll Wheel Buttons
+Added `SP_MOUSE_SCROLL_UP` and `SP_MOUSE_SCROLL_DOWN` as assignable button actions in the HUD layout editor.
 
- 
+Previously, selecting hotbar slots required placing 10 individual number buttons (0–9) in the layout. Now two scroll buttons cover all hotbar slots, freeing up significant screen space.
 
-**Copyright (c) 2026 [Solo]**
+### 🕹️ Joystick Support *(by Temder)*
+A virtual joystick control is now available in the HUD layout editor, along with other editor improvements contributed by Temder.
 
-**All rights reserved.**
+### ⚡ Performance Optimisations
+Several changes to reduce CPU heat and improve frame pacing:
 
-**Original Project Copyright (c) [Artdeell/2026]**
+- **Fixed bitmask bug** in the native GLFW layer (`>>` → `<<`) that caused input flags to be silently ignored
+- **Removed spurious pipe write** that fired on every event loop cycle with no effect
+- **Coalesced cursor redraws** — rapid touch-move events no longer flood the UI thread with individual invalidate calls
+- **20 .NET runtime tuning flags** added at startup covering GC mode, heap limits, tiered JIT, ARM64 SIMD, thread pool sizing, and diagnostics suppression
+- **Workstation GC mode enforced** — server GC spins dedicated background threads continuously and is unsuitable for mobile thermal budgets
 
-**All rights reserved.**
+Observed improvement on mid-to-high-end devices: roughly **40–50% FPS gain** and noticeably lower sustained temperatures.
+
+---
+
+## Installation
+
+### Requirements
+- A legitimate purchased [Vintage Story](https://www.vintagestory.at/) account
+- An Android device running Android 5.0+ (arm64-v8a)
+
+### Steps
+
+1. Log in to the [Vintage Story account manager](https://account.vintagestory.at/) and download:
+   **Vintage Story — Linux x64 Tar.gz, version 1.21.6**
+
+2. Download `dnbootstrap.apk` from the [Releases](../../releases) page and install it.
+
+3. Launch the app. When prompted, select the downloaded `.tar.gz` file from your file manager.
+
+4. The app will extract the game files. This is a **one-time step** — subsequent launches go straight to the game.
+
+5. Log in and play.
+
+---
+
+## Recommended Settings
+
+For the best performance on mobile, apply these settings after first launch:
+
+**Graphics → Presets**
+- Select the **Lowest** preset as a starting point.
+
+**Graphics → Show Additional Options**
+- Set **Render Resolution** to **50%** (or 0.5×).
+  Resolution scaling below 100% has minimal visible impact at typical phone viewing distances but cuts GPU load significantly.
+
+**Graphics**
+- Enable **VSync**
+- Set **Max FPS** to `30` (or `60` if your device handles it without throttling)
+
+**World**
+- Reduce **View Distance** — values around `96`–`128` are a good balance on mobile
+
+---
+
+## Credits
+
+| Contributor | Work |
+|---|---|
+| [artdeell](https://github.com/artdeell) | Original dnbootstrap / VS-Mobile launcher |
+| [Temder](https://github.com/Temder) | Joystick support, HUD editor improvements |
+| Solo | Scroll wheel buttons, performance optimisations, bug fixes |
+
+---
+
+## License
+
+This project is a fork of open-source work. Modifications in this repository are provided as-is with no warranty.
+
+Original project copyright © artdeell. Fork modifications copyright © 2026 Solo. All rights reserved.
+
+Vintage Story is the property of Tyron Madlener / Anego Studios. This project is not affiliated with or endorsed by the Vintage Story developers.

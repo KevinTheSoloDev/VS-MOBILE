@@ -9,6 +9,12 @@ This is A fork of artdeells original VSMobile repo with some more contribution f
  
  •**Some parts of the code used to run unnecessary loops, this is now tweaked and device should. not heat up as much**
 
+
+
+ ###**Note this is still under testing and might crash or break original [GitHub repo of artdell](https://github.com/VSMobile/dnbootstrap) and [Root repo](https://github.com/VSMobile) is linked here*
+
+ 
+
 **Copyright (c) 2026 [Solo]**
 
 **All rights reserved.**

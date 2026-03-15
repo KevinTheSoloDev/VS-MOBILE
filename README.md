@@ -11,7 +11,7 @@ This is A fork of artdeells original VSMobile repo with some more contribution f
 
 
 
- ###**Note this is still under testing and might crash or break original [GitHub repo of artdell](https://github.com/VSMobile/dnbootstrap) and [Root repo](https://github.com/VSMobile) is linked here*
+ ### **Note this is still under testing and might crash or break original [GitHub repo of artdell](https://github.com/VSMobile/dnbootstrap) and [Root repo](https://github.com/VSMobile) is linked here*
 
  
 

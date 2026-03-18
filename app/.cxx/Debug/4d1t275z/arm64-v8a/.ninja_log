@@ -22,3 +22,6 @@
 1	90	1773476294706622593	glfw34/src/CMakeFiles/glfw.dir/android_window.c.o	44a81300b65195d6
 90	114	1773476294730622593	/workspaces/VS-MOBILE/app/build/intermediates/cxx/Debug/4d1t275z/obj/arm64-v8a/libglfw.so	ec52652e92eb07b1
 114	134	1773476294751622592	/workspaces/VS-MOBILE/app/build/intermediates/cxx/Debug/4d1t275z/obj/arm64-v8a/libdnbootstrap.so	1ce4456aa85c3290
+41	6390	1773836934731372157	glfw34/src/CMakeFiles/glfw.dir/android_window.c.o	44a81300b65195d6
+6390	9964	1773836938332372213	/workspaces/VS-MOBILE/app/build/intermediates/cxx/Debug/4d1t275z/obj/arm64-v8a/libglfw.so	ec52652e92eb07b1
+9964	10051	1773836938421372214	/workspaces/VS-MOBILE/app/build/intermediates/cxx/Debug/4d1t275z/obj/arm64-v8a/libdnbootstrap.so	1ce4456aa85c3290

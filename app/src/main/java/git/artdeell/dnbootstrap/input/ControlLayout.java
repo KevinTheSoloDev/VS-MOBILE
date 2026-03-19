@@ -2,6 +2,7 @@ package git.artdeell.dnbootstrap.input;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.res.AssetManager;
 import android.graphics.Rect;
 import android.os.Handler;
@@ -60,6 +61,17 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
         super(context);
     }
 
+    // Unwrap context wrappers to find the underlying Activity
+    // AlertDialog requires an Activity context — View.getContext() may return a wrapper
+    private Context getActivityContext() {
+        Context ctx = getContext();
+        while (ctx instanceof ContextWrapper) {
+            if (ctx instanceof android.app.Activity) return ctx;
+            ctx = ((ContextWrapper) ctx).getBaseContext();
+        }
+        return getContext(); // fallback
+    }
+
     // Called by ControlButton when SPECIAL_KEY_SWITCH_LAYOUT is held
     public void showLayoutPicker() {
         if (availableLayouts == null) {
@@ -81,7 +93,7 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
         }
 
         if (availableLayouts.length <= 1) {
-            Toast.makeText(getContext(), "No other layouts found in assets", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivityContext(), "No other layouts found in assets", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -95,7 +107,7 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
                     ? name + "  \u2713" : name;
         }
 
-        post(() -> new AlertDialog.Builder(getContext())
+        post(() -> new AlertDialog.Builder(getActivityContext())
                 .setTitle("Switch HUD Layout")
                 .setItems(displayNames, (dialog, which) -> {
                     String chosen = availableLayouts[which];

@@ -1,9 +1,9 @@
 Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
 Change Dir: /workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/home/codespace/android-sdk/cmake/3.22.1/bin/ninja cmTC_1a12b && [1/2] Building C object CMakeFiles/cmTC_1a12b.dir/src.c.o
-FAILED: CMakeFiles/cmTC_1a12b.dir/src.c.o 
-/home/codespace/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/codespace/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DCMAKE_HAVE_LIBC_PTHREAD  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_1a12b.dir/src.c.o -MF CMakeFiles/cmTC_1a12b.dir/src.c.o.d -o CMakeFiles/cmTC_1a12b.dir/src.c.o -c /workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/CMakeFiles/CMakeTmp/src.c
+Run Build Command(s):/home/codespace/android-sdk/cmake/3.22.1/bin/ninja cmTC_5286c && [1/2] Building C object CMakeFiles/cmTC_5286c.dir/src.c.o
+FAILED: CMakeFiles/cmTC_5286c.dir/src.c.o 
+/home/codespace/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/codespace/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DCMAKE_HAVE_LIBC_PTHREAD  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fPIE -MD -MT CMakeFiles/cmTC_5286c.dir/src.c.o -MF CMakeFiles/cmTC_5286c.dir/src.c.o.d -o CMakeFiles/cmTC_5286c.dir/src.c.o -c /workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/CMakeFiles/CMakeTmp/src.c
 /workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/CMakeFiles/CMakeTmp/src.c:13:3: error: call to undeclared function 'pthread_cancel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
    13 |   pthread_cancel(thread);
       |   ^
@@ -39,10 +39,10 @@ int main(void)
 Determining if the function pthread_create exists in the pthreads failed with the following output:
 Change Dir: /workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/home/codespace/android-sdk/cmake/3.22.1/bin/ninja cmTC_72dfb && [1/2] Building C object CMakeFiles/cmTC_72dfb.dir/CheckFunctionExists.c.o
-[2/2] Linking C executable cmTC_72dfb
-FAILED: cmTC_72dfb 
-: && /home/codespace/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/codespace/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -DCHECK_FUNCTION_EXISTS=pthread_create -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments CMakeFiles/cmTC_72dfb.dir/CheckFunctionExists.c.o -o cmTC_72dfb  -lpthreads  -latomic -lm && :
+Run Build Command(s):/home/codespace/android-sdk/cmake/3.22.1/bin/ninja cmTC_492c3 && [1/2] Building C object CMakeFiles/cmTC_492c3.dir/CheckFunctionExists.c.o
+[2/2] Linking C executable cmTC_492c3
+FAILED: cmTC_492c3 
+: && /home/codespace/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/codespace/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -DCHECK_FUNCTION_EXISTS=pthread_create -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments CMakeFiles/cmTC_492c3.dir/CheckFunctionExists.c.o -o cmTC_492c3  -lpthreads  -latomic -lm && :
 ld.lld: error: unable to find library -lpthreads
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ninja: build stopped: subcommand failed.
@@ -52,10 +52,10 @@ ninja: build stopped: subcommand failed.
 Determining if the function pthread_create exists in the pthread failed with the following output:
 Change Dir: /workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/home/codespace/android-sdk/cmake/3.22.1/bin/ninja cmTC_5efac && [1/2] Building C object CMakeFiles/cmTC_5efac.dir/CheckFunctionExists.c.o
-[2/2] Linking C executable cmTC_5efac
-FAILED: cmTC_5efac 
-: && /home/codespace/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/codespace/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -DCHECK_FUNCTION_EXISTS=pthread_create -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments CMakeFiles/cmTC_5efac.dir/CheckFunctionExists.c.o -o cmTC_5efac  -lpthread  -latomic -lm && :
+Run Build Command(s):/home/codespace/android-sdk/cmake/3.22.1/bin/ninja cmTC_ccd0e && [1/2] Building C object CMakeFiles/cmTC_ccd0e.dir/CheckFunctionExists.c.o
+[2/2] Linking C executable cmTC_ccd0e
+FAILED: cmTC_ccd0e 
+: && /home/codespace/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/bin/clang --target=aarch64-none-linux-android21 --sysroot=/home/codespace/android-sdk/ndk/27.0.12077973/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -DCHECK_FUNCTION_EXISTS=pthread_create -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-rosegment -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments CMakeFiles/cmTC_ccd0e.dir/CheckFunctionExists.c.o -o cmTC_ccd0e  -lpthread  -latomic -lm && :
 ld.lld: error: unable to find library -lpthread
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ninja: build stopped: subcommand failed.

@@ -86,6 +86,20 @@ public class LoadableButtonLayout extends ViewGroup {
         }).start();
     }
 
+    // Load a specific layout asset by filename (e.g. "layout-two.json")
+    public void loadByName(String assetFileName) {
+        new Thread(() -> {
+            try {
+                AssetManager assetManager = getContext().getAssets();
+                try (InputStream stream = assetManager.open(assetFileName)) {
+                    loadFromStream(stream);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
+    }
+
     public void load(LayoutDescription description) {
         Context context = getContext();
         removeAllViews();

@@ -1,6 +1,7 @@
 package git.artdeell.dnbootstrap.input;
 
 import android.content.Context;
+import android.os.Handler;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -78,6 +79,16 @@ public class ControlButton extends androidx.appcompat.widget.AppCompatTextView i
         }
     }
 
+    // Walk up the view tree to find the ControlLayout parent
+    private ControlLayout findControlLayout() {
+        android.view.ViewParent p = getParent();
+        while (p != null) {
+            if (p instanceof ControlLayout) return (ControlLayout) p;
+            p = p.getParent();
+        }
+        return null;
+    }
+
     public void executeKeyEvent(int code, int state) {
         if(code == 0) return;
         if(code < 0) {
@@ -98,6 +109,9 @@ public class ControlButton extends androidx.appcompat.widget.AppCompatTextView i
                 case KeyCodes.SPECIAL_KEY_MOUSE_SCROLL_DOWN:
                     if(state == KeyCodes.GLFW_PRESS) GLFW.sendScrollEvent(0.0, -1.0);
                     break;
+                case KeyCodes.SPECIAL_KEY_SWITCH_LAYOUT:
+                    // Handled by hold detection in onTouchState — nothing here
+                    break;
                 default:
                     callSpecialCallback(getContext(), code, state);
             }
@@ -105,6 +119,11 @@ public class ControlButton extends androidx.appcompat.widget.AppCompatTextView i
             GLFW.sendKeyEvent(code, state, 0);
         }
     }
+
+    // Hold detection for SPECIAL_KEY_SWITCH_LAYOUT
+    private static final long HOLD_DURATION_MS = 500;
+    private final Handler holdHandler = new Handler();
+    private Runnable holdRunnable = null;
 
     @Override
     public void onTouchState(boolean isTouched) {
@@ -114,6 +133,23 @@ public class ControlButton extends androidx.appcompat.widget.AppCompatTextView i
         }
         if (isTouched) {
             firstTouch = true;
+            // Start hold timer for SWITCH_LAYOUT key
+            for (int keyCode : controlButtonData.keyCodes) {
+                if (keyCode == KeyCodes.SPECIAL_KEY_SWITCH_LAYOUT) {
+                    holdRunnable = () -> {
+                        ControlLayout cl = findControlLayout();
+                        if (cl != null) cl.showLayoutPicker();
+                    };
+                    holdHandler.postDelayed(holdRunnable, HOLD_DURATION_MS);
+                    break;
+                }
+            }
+        } else {
+            // Cancel hold if finger lifted before threshold
+            if (holdRunnable != null) {
+                holdHandler.removeCallbacks(holdRunnable);
+                holdRunnable = null;
+            }
         }
     }
 

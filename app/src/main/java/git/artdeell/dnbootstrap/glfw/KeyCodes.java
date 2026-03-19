@@ -8,6 +8,7 @@ public class KeyCodes {
     public static final int SPECIAL_KEY_OPEN_EDITOR       = -5;
     public static final int SPECIAL_KEY_MOUSE_SCROLL_UP   = -6;
     public static final int SPECIAL_KEY_MOUSE_SCROLL_DOWN = -7;
+    public static final int SPECIAL_KEY_SWITCH_LAYOUT        = -8;
 
     public static final int GLFW_KEY_NONE               = 0;
     public static final int GLFW_KEY_SPACE              = 32;

@@ -1,0 +1,493 @@
+{
+    "buttonList": [
+        {
+            "backgroundColor": 0,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                -1,
+                0
+            ],
+            "label": "PRI",
+            "layoutParams": {
+                "alignmentHorizontal": 0,
+                "alignmentVertical": 1,
+                "offsetHorizontal": 14,
+                "offsetVertical": 0,
+                "height": 12,
+                "width": 12
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "backgroundColor": 0,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                -2,
+                0
+            ],
+            "label": "SEC",
+            "layoutParams": {
+                "alignmentHorizontal": 2,
+                "alignmentVertical": 1,
+                "offsetHorizontal": 17,
+                "offsetVertical": 0,
+                "height": 12,
+                "width": 12
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "backgroundColor": 0,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                69,
+                0
+            ],
+            "label": "Inv",
+            "layoutParams": {
+                "alignmentHorizontal": 2,
+                "alignmentVertical": 3,
+                "offsetHorizontal": 0,
+                "offsetVertical": 0,
+                "height": 6,
+                "width": 6
+            },
+            "showInGame": true,
+            "showInMenu": false,
+            "type": "button"
+        },
+        {
+            "backgroundColor": 0,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                -4,
+                0
+            ],
+            "label": "Kbd",
+            "layoutParams": {
+                "alignmentHorizontal": 0,
+                "alignmentVertical": 1,
+                "offsetHorizontal": 34,
+                "offsetVertical": 3,
+                "height": 6,
+                "width": 6
+            },
+            "showInGame": false,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "backgroundColor": 0,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                340,
+                0
+            ],
+            "label": "Shift",
+            "layoutParams": {
+                "alignmentHorizontal": 0,
+                "alignmentVertical": 1,
+                "offsetHorizontal": 14,
+                "offsetVertical": 12,
+                "height": 6,
+                "width": 6
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "backgroundColor": -2131475658,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                -5,
+                0
+            ],
+            "label": "Edit",
+            "layoutParams": {
+                "alignmentHorizontal": 2,
+                "alignmentVertical": 1,
+                "offsetHorizontal": 0,
+                "offsetVertical": 0,
+                "height": 4,
+                "width": 4
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "backgroundColor": 0,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                32,
+                0
+            ],
+            "label": "JMP",
+            "layoutParams": {
+                "alignmentHorizontal": 2,
+                "alignmentVertical": 1,
+                "offsetHorizontal": 5,
+                "offsetVertical": 0,
+                "height": 12,
+                "width": 12
+            },
+            "showInGame": true,
+            "showInMenu": false,
+            "type": "button"
+        },
+        {
+            "autoCenter": true,
+            "axisCodes": [
+                0,
+                0
+            ],
+            "backgroundColor": 0,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": false
+            },
+            "layoutParams": {
+                "alignmentHorizontal": 0,
+                "alignmentVertical": 3,
+                "offsetHorizontal": 7,
+                "offsetVertical": 0,
+                "height": 12,
+                "width": 12
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "joystick"
+        },
+        {
+            "backgroundAssetId": "",
+            "backgroundColor": 0,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                -7,
+                0
+            ],
+            "label": "UP",
+            "layoutParams": {
+                "alignmentHorizontal": 2,
+                "alignmentVertical": 1,
+                "offsetHorizontal": 0,
+                "offsetVertical": 13,
+                "height": 5,
+                "width": 5
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "backgroundAssetId": "",
+            "backgroundColor": 0,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                -6,
+                0
+            ],
+            "label": "DOWN",
+            "layoutParams": {
+                "alignmentHorizontal": 2,
+                "alignmentVertical": 1,
+                "offsetHorizontal": 0,
+                "offsetVertical": 17,
+                "height": 5,
+                "width": 5
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "backgroundAssetId": "",
+            "backgroundColor": -2147483648,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                294,
+                0
+            ],
+            "label": "TPP",
+            "layoutParams": {
+                "alignmentHorizontal": 0,
+                "alignmentVertical": 1,
+                "offsetHorizontal": 0,
+                "offsetVertical": 16,
+                "height": 4,
+                "width": 4
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "backgroundAssetId": "",
+            "backgroundColor": -2147483648,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                70,
+                0
+            ],
+            "label": "F",
+            "layoutParams": {
+                "alignmentHorizontal": 0,
+                "alignmentVertical": 1,
+                "offsetHorizontal": 0,
+                "offsetVertical": 12,
+                "height": 4,
+                "width": 4
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "backgroundAssetId": "",
+            "backgroundColor": -2147483648,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                72,
+                0
+            ],
+            "label": "Handbook",
+            "layoutParams": {
+                "alignmentHorizontal": 0,
+                "alignmentVertical": 1,
+                "offsetHorizontal": 0,
+                "offsetVertical": 8,
+                "height": 4,
+                "width": 4
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "backgroundAssetId": "",
+            "backgroundColor": -2147483648,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                67,
+                0
+            ],
+            "label": "Charac",
+            "layoutParams": {
+                "alignmentHorizontal": 0,
+                "alignmentVertical": 1,
+                "offsetHorizontal": 0,
+                "offsetVertical": 4,
+                "height": 4,
+                "width": 4
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "backgroundAssetId": "",
+            "backgroundColor": -2147483648,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                77,
+                0
+            ],
+            "label": "map",
+            "layoutParams": {
+                "alignmentHorizontal": 0,
+                "alignmentVertical": 1,
+                "offsetHorizontal": 0,
+                "offsetVertical": 0,
+                "height": 4,
+                "width": 4
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "backgroundAssetId": "",
+            "backgroundColor": -2147483648,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                88,
+                0
+            ],
+            "label": "OffHnd",
+            "layoutParams": {
+                "alignmentHorizontal": 0,
+                "alignmentVertical": 3,
+                "offsetHorizontal": 0,
+                "offsetVertical": 12,
+                "height": 4,
+                "width": 4
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "backgroundAssetId": "",
+            "backgroundColor": 0,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                342,
+                0
+            ],
+            "label": "Alt",
+            "layoutParams": {
+                "alignmentHorizontal": 2,
+                "alignmentVertical": 3,
+                "offsetHorizontal": 0,
+                "offsetVertical": 10,
+                "height": 5,
+                "width": 5
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "backgroundAssetId": "",
+            "backgroundColor": -2147483648,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                71,
+                0
+            ],
+            "label": "Sit",
+            "layoutParams": {
+                "alignmentHorizontal": 0,
+                "alignmentVertical": 3,
+                "offsetHorizontal": 0,
+                "offsetVertical": 8,
+                "height": 4,
+                "width": 4
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "backgroundAssetId": "",
+            "backgroundColor": 0,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                256,
+                0
+            ],
+            "label": "ESC",
+            "layoutParams": {
+                "alignmentHorizontal": 2,
+                "alignmentVertical": 1,
+                "offsetHorizontal": 31,
+                "offsetVertical": 3,
+                "height": 6,
+                "width": 6
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "backgroundColor": 0,
+            "inputConfiguration": {
+                "movesCursor": false,
+                "sticky": true
+            },
+            "keyCodes": [
+                341,
+                0
+            ],
+            "label": "Control",
+            "layoutParams": {
+                "alignmentHorizontal": 2,
+                "alignmentVertical": 1,
+                "offsetHorizontal": 17,
+                "offsetVertical": 12,
+                "height": 6,
+                "width": 12
+            },
+            "showInGame": true,
+            "showInMenu": true,
+            "type": "button"
+        },
+        {
+            "type": "button",
+            "label": "HUD",
+            "keyCodes": [
+                -8,
+                0
+            ],
+            "width": 4,
+            "height": 3,
+            "alignmentHorizontal": 2,
+            "alignmentVertical": 0,
+            "offsetHorizontal": 1,
+            "offsetVertical": 1,
+            "showInGame": true,
+            "showInMenu": true
+        }
+    ],
+    "cursorToTouch": false,
+    "gridPitch": 10.0
+}

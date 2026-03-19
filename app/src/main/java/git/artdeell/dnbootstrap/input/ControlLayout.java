@@ -1,6 +1,8 @@
 package git.artdeell.dnbootstrap.input;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -14,10 +16,10 @@ import java.util.concurrent.TimeUnit;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 import git.artdeell.dnbootstrap.glfw.GLFW;
 import git.artdeell.dnbootstrap.glfw.KeyCodes;
@@ -31,11 +33,15 @@ import git.artdeell.dnbootstrap.input.model.VisibilityConfiguration;
 public class ControlLayout extends LoadableButtonLayout implements GrabListener {
     private final Rect hitTestRect = new Rect();
     private final HashMap<Integer, HitTarget> lastHitTargets = new HashMap<>();
-    private final Set<HitTarget> allHitTargets = new HashSet<>();
+    private final List<HitTarget> allHitTargets = new ArrayList<>();
     private final HitTarget defaultHitTarget = new HitTarget(new DefaultConsumer());
     private Context cont = getContext();
     ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     public boolean cursorToTouch = false;
+
+    // Layout switching — scanned from assets on first use
+    private String[] availableLayouts = null;
+    private String currentLayoutName = "layout-default.json";
 
     public ControlLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -54,6 +60,54 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
         super(context);
     }
 
+    // Called by ControlButton when SPECIAL_KEY_SWITCH_LAYOUT is held
+    public void showLayoutPicker() {
+        if (availableLayouts == null) {
+            try {
+                AssetManager am = getContext().getAssets();
+                String[] all = am.list("");
+                List<String> layouts = new ArrayList<>();
+                if (all != null) {
+                    for (String name : all) {
+                        if (name.startsWith("layout-") && name.endsWith(".json")) {
+                            layouts.add(name);
+                        }
+                    }
+                }
+                availableLayouts = layouts.toArray(new String[0]);
+            } catch (Exception e) {
+                availableLayouts = new String[]{"layout-default.json"};
+            }
+        }
+
+        if (availableLayouts.length <= 1) {
+            Toast.makeText(getContext(), "No other layouts found in assets", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String[] displayNames = new String[availableLayouts.length];
+        for (int i = 0; i < availableLayouts.length; i++) {
+            String name = availableLayouts[i]
+                    .replace("layout-", "")
+                    .replace(".json", "");
+            name = name.substring(0, 1).toUpperCase() + name.substring(1);
+            displayNames[i] = availableLayouts[i].equals(currentLayoutName)
+                    ? name + "  \u2713" : name;
+        }
+
+        post(() -> new AlertDialog.Builder(getContext())
+                .setTitle("Switch HUD Layout")
+                .setItems(displayNames, (dialog, which) -> {
+                    String chosen = availableLayouts[which];
+                    if (!chosen.equals(currentLayoutName)) {
+                        currentLayoutName = chosen;
+                        loadByName(chosen);
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show());
+    }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return super.dispatchTouchEvent(ev);
@@ -65,11 +119,11 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
     }
 
     private HitTarget hitTest(int x, int y) {
-        for(HitTarget hitTarget : allHitTargets) {
-            View child = ((View)hitTarget.consumer);
-            if (child.getVisibility() != View.VISIBLE) continue; // ignore hidden views
+        for (HitTarget hitTarget : allHitTargets) {
+            View child = ((View) hitTarget.consumer);
+            if (child.getVisibility() != View.VISIBLE) continue;
             hitTestRect.set(child.getLeft(), child.getTop(), child.getRight(), child.getBottom());
-            if(hitTestRect.contains(x,y)) return hitTarget;
+            if (hitTestRect.contains(x, y)) return hitTarget;
         }
         return defaultHitTarget;
     }
@@ -77,8 +131,8 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
     @Override
     public void onViewAdded(View view) {
         super.onViewAdded(view);
-        if(!(view instanceof LayoutTouchConsumer)) return;
-        LayoutTouchConsumer layoutTouchConsumer = (LayoutTouchConsumer)view;
+        if (!(view instanceof LayoutTouchConsumer)) return;
+        LayoutTouchConsumer layoutTouchConsumer = (LayoutTouchConsumer) view;
         allHitTargets.add(new HitTarget(layoutTouchConsumer));
         updateVisibility(layoutTouchConsumer);
     }
@@ -86,11 +140,11 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
     @Override
     public void onViewRemoved(View view) {
         super.onViewRemoved(view);
-        if(allHitTargets.isEmpty()) return;
-        if(!(view instanceof LayoutTouchConsumer)) return;
+        if (allHitTargets.isEmpty()) return;
+        if (!(view instanceof LayoutTouchConsumer)) return;
         Iterator<HitTarget> iter = allHitTargets.iterator();
-        while(iter.hasNext()) {
-            if(iter.next().consumer != view) continue;
+        while (iter.hasNext()) {
+            if (iter.next().consumer != view) continue;
             iter.remove();
             break;
         }
@@ -103,11 +157,10 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
     }
 
     public void load(LayoutDescription description) {
-        Context context = getContext();
         removeAllViews();
         setGridPitch(description.gridPitch);
-        for(ViewCreator creator : description.buttonList) {
-            addView(creator.createView(context));
+        for (ViewCreator creator : description.buttonList) {
+            addView(creator.createView(getContext()));
         }
         this.cursorToTouch = description.cursorToTouch;
     }
@@ -117,19 +170,18 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
         HitTarget lastHit = lastHitTargets.get(pointerId);
         float x = event.getX(pointer), y = event.getY(pointer);
 
-        if(action == MotionEvent.ACTION_MOVE) {
-            // Always update position for the INITIAL target only (no re-hit-testing)
+        if (action == MotionEvent.ACTION_MOVE) {
             if (lastHit != null && lastHit.isInitialTarget) {
                 lastHit.onTouchPosition(pointerId, x - lastHit.consumer.getLeft(),
                         y - lastHit.consumer.getTop());
             }
-        }else if(action == MotionEvent.ACTION_POINTER_UP) {
-            if(lastHit != null) lastHit.onTouchState(pointerId, false);
+        } else if (action == MotionEvent.ACTION_POINTER_UP) {
+            if (lastHit != null) lastHit.onTouchState(pointerId, false);
             lastHitTargets.remove(pointerId);
-        }else if(action == MotionEvent.ACTION_POINTER_DOWN) {
+        } else if (action == MotionEvent.ACTION_POINTER_DOWN) {
             HitTarget hit = hitTest((int) x, (int) y);
-            if(hit != null) {
-                hit.isInitialTarget = true;  // Mark as owning this pointer
+            if (hit != null) {
+                hit.isInitialTarget = true;
                 hit.onTouchState(pointerId, true);
                 hit.onTouchPosition(pointerId, x - hit.consumer.getLeft(), y - hit.consumer.getTop());
             }
@@ -138,8 +190,8 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
     }
 
     private void releaseAllPointers() {
-        for(HitTarget target : lastHitTargets.values()) {
-            if(target == null) continue;
+        for (HitTarget target : lastHitTargets.values()) {
+            if (target == null) continue;
             target.reset();
         }
         lastHitTargets.clear();
@@ -161,9 +213,9 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
             case MotionEvent.ACTION_POINTER_DOWN:
                 affectedPointer = event.getActionIndex();
             case MotionEvent.ACTION_MOVE:
-                for(int i = 0; i < event.getPointerCount(); i++) {
+                for (int i = 0; i < event.getPointerCount(); i++) {
                     int reportedAction = MotionEvent.ACTION_MOVE;
-                    if(affectedPointer == i) reportedAction = action;
+                    if (affectedPointer == i) reportedAction = action;
                     processPointer(event, i, reportedAction);
                 }
                 break;
@@ -178,50 +230,47 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
 
     private void updateVisibility(LayoutTouchConsumer layoutTouchConsumer) {
         boolean isGrabbing = GLFW.isGrabbing();
-        VisibilityConfiguration visibilityConfiguration = layoutTouchConsumer.getVisibilityConfiguration();
-        boolean visible = visibilityConfiguration.showInGame && isGrabbing;
-        visible |= visibilityConfiguration.showInMenu && !isGrabbing;
+        VisibilityConfiguration vc = layoutTouchConsumer.getVisibilityConfiguration();
+        boolean visible = (vc.showInGame && isGrabbing) || (vc.showInMenu && !isGrabbing);
         layoutTouchConsumer.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
     private void updateVisibility() {
-        for(HitTarget hitTarget : allHitTargets) {
-            if(hitTarget == defaultHitTarget) continue;
+        for (HitTarget hitTarget : allHitTargets) {
+            if (hitTarget == defaultHitTarget) continue;
             updateVisibility(hitTarget.consumer);
         }
     }
 
     private class HitTarget {
         public final @NonNull LayoutTouchConsumer consumer;
-        private int firstTouchedPointer;
+        private int firstTouchedPointer = -1;
         private boolean lastState;
         private boolean isInitialTarget = false;
 
         private HitTarget(@NonNull LayoutTouchConsumer consumer) {
             this.consumer = consumer;
-            this.firstTouchedPointer = -1;
-            this.isInitialTarget = false;
         }
 
         public void onTouchState(int pointerId, boolean isTouched) {
-            if(pointerId != firstTouchedPointer && firstTouchedPointer != -1) return;
-            if(!isTouched) firstTouchedPointer = -1;
-            if(isTouched && firstTouchedPointer == -1) firstTouchedPointer = pointerId;
-            if(isTouched != lastState) {
+            if (pointerId != firstTouchedPointer && firstTouchedPointer != -1) return;
+            if (!isTouched) firstTouchedPointer = -1;
+            if (isTouched && firstTouchedPointer == -1) firstTouchedPointer = pointerId;
+            if (isTouched != lastState) {
                 lastState = isTouched;
                 consumer.onTouchState(isTouched);
             }
         }
 
         public void onTouchPosition(int pointerId, float x, float y) {
-            if(pointerId != firstTouchedPointer) return;
+            if (pointerId != firstTouchedPointer) return;
             consumer.onTouchPosition(x - consumer.getLeft(), y - consumer.getTop());
         }
 
         public void reset() {
             firstTouchedPointer = -1;
             isInitialTarget = false;
-            if(lastState) consumer.onTouchState(false);
+            if (lastState) consumer.onTouchState(false);
             lastState = false;
         }
     }
@@ -232,42 +281,29 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
         private float lastX, lastY;
         private long touchDownTime = 0;
         private boolean isLongPress = false;
-        private static final long LONG_PRESS_THRESHOLD = 200; // milliseconds
+        private static final long LONG_PRESS_THRESHOLD = 200;
         private float touchDownX = 0f, touchDownY = 0f;
         private boolean touchMovedTooFar = false;
-        private static final float MOVE_SLOP = 20f; // pixels
-
+        private static final float MOVE_SLOP = 20f;
 
         @Override
         public void onTouchState(boolean isTouched) {
-            if(isTouched) {
-                // Touch down: record the time and reset movement state
+            if (isTouched) {
                 touchDownTime = System.currentTimeMillis();
                 isLongPress = false;
                 touchMovedTooFar = false;
                 deltaReady = false;
             } else {
-                // Touch up: handle breaking/placing logic
                 long touchDuration = System.currentTimeMillis() - touchDownTime;
-
-                if(isLongPress) {
-                    // Release left mouse button (breaking)
+                if (isLongPress) {
                     GLFW.sendMouseEvent(MouseCodes.GLFW_MOUSE_BUTTON_LEFT, KeyCodes.GLFW_RELEASE, 0);
-                } else if(touchDuration < LONG_PRESS_THRESHOLD && !touchMovedTooFar) {
-                    // Short tap: send right mouse button (placing) in game or left mouse button in menu/inventory
-                    int shortTouch;
-                    if(!GLFW.isGrabbing()) {
-                        shortTouch = MouseCodes.GLFW_MOUSE_BUTTON_LEFT;
-                    } else {
-                        shortTouch = MouseCodes.GLFW_MOUSE_BUTTON_RIGHT;
-                    }
+                } else if (touchDuration < LONG_PRESS_THRESHOLD && !touchMovedTooFar) {
+                    int shortTouch = GLFW.isGrabbing()
+                            ? MouseCodes.GLFW_MOUSE_BUTTON_RIGHT
+                            : MouseCodes.GLFW_MOUSE_BUTTON_LEFT;
                     GLFW.sendMouseEvent(shortTouch, KeyCodes.GLFW_PRESS, 0);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            GLFW.sendMouseEvent(shortTouch, KeyCodes.GLFW_RELEASE, 0);
-                        }
-                    }, 20);
+                    new Handler().postDelayed(() ->
+                            GLFW.sendMouseEvent(shortTouch, KeyCodes.GLFW_RELEASE, 0), 20);
                 }
             }
             lastX = lastY = 0;
@@ -276,15 +312,13 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
 
         @Override
         public void onTouchPosition(float x, float y) {
-            if(!deltaReady) {
+            if (!deltaReady) {
                 lastX = x;
                 lastY = y;
                 touchDownX = x;
                 touchDownY = y;
                 deltaReady = true;
-
-                // If using Direct Touch, snap cursor to finger immediately on touch down
-                if(cursorToTouch && !GLFW.isGrabbing()) {
+                if (cursorToTouch && !GLFW.isGrabbing()) {
                     GLFW.cursorX = x / getWidth();
                     GLFW.cursorY = y / getHeight();
                     GLFW.sendMousePos();
@@ -292,37 +326,28 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
                 return;
             }
 
-            // If the finger has moved too far from initial down position, mark it
             float dxFromDown = x - touchDownX;
             float dyFromDown = y - touchDownY;
-            if(!touchMovedTooFar && (dxFromDown * dxFromDown + dyFromDown * dyFromDown) > MOVE_SLOP * MOVE_SLOP) {
+            if (!touchMovedTooFar && (dxFromDown * dxFromDown + dyFromDown * dyFromDown) > MOVE_SLOP * MOVE_SLOP) {
                 touchMovedTooFar = true;
             }
 
-            // Check if touch duration exceeded threshold for long press detection and hasn't moved too far
-            if(!isLongPress && !touchMovedTooFar && System.currentTimeMillis() - touchDownTime >= LONG_PRESS_THRESHOLD) {
+            if (!isLongPress && !touchMovedTooFar && System.currentTimeMillis() - touchDownTime >= LONG_PRESS_THRESHOLD) {
                 isLongPress = true;
-                // Send left mouse button press (breaking)
                 GLFW.sendMouseEvent(MouseCodes.GLFW_MOUSE_BUTTON_LEFT, KeyCodes.GLFW_PRESS, 0);
             }
 
-            if(GLFW.isGrabbing()) {
-                // FPS MODE (Looking Around):
-                // Always use Relative Drag to control camera smoothly.
+            if (GLFW.isGrabbing()) {
                 float deltaX = x - lastX;
                 float deltaY = y - lastY;
                 GLFW.cursorX += deltaX / getWidth();
                 GLFW.cursorY += deltaY / getHeight();
                 GLFW.sendMousePos();
-            } else if(cursorToTouch) {
-                // MENU MODE (Direct Touch):
-                // Cursor follows finger absolutely.
+            } else if (cursorToTouch) {
                 GLFW.cursorX = x / getWidth();
                 GLFW.cursorY = y / getHeight();
                 GLFW.sendMousePos();
             } else {
-                // MENU MODE (Drag Mode):
-                // Cursor moves relative to finger.
                 float deltaX = x - lastX;
                 float deltaY = y - lastY;
                 GLFW.cursorX += deltaX / getWidth();
@@ -334,28 +359,15 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
             lastY = y;
         }
 
-        @Override
-        public void setVisibility(int visibility) {}
-
-        @Override
-        public int getLeft() {
-            return 0;
-        }
-
-        @Override
-        public int getTop() {
-            return 0;
-        }
+        @Override public void setVisibility(int visibility) {}
+        @Override public int getLeft() { return 0; }
+        @Override public int getTop() { return 0; }
 
         @NonNull
         @Override
-        public InputConfiguration getInputConfiguration() {
-            return defaultConfiguration;
-        }
+        public InputConfiguration getInputConfiguration() { return defaultConfiguration; }
 
         @Override
-        public VisibilityConfiguration getVisibilityConfiguration() {
-            return null;
-        }
+        public VisibilityConfiguration getVisibilityConfiguration() { return null; }
     }
 }

@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 public enum DisplayKeyCode {
+    SP_SWITCH_LAYOUT      (-8),
     SP_MOUSE_SCROLL_DOWN  (-7),
     SP_MOUSE_SCROLL_UP    (-6),
     SP_OPEN_EDITOR        (-5),

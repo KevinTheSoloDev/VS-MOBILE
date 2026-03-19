@@ -36,18 +36,17 @@ public class GLFW {
     }
 
     public static void sendMousePos() {
-        // When grabbed (in-game), the cursor is hidden and its screen position
-        // is irrelevant — VS reads relative delta movement, not absolute position.
-        // Skipping the clamp + JNI call here saves work on every touch-move event.
-        if(grabbing) return;
-
-        if(cursorX < 0) cursorX = 0;
-        else if(cursorX > 1) cursorX = 1;
-        if(cursorY < 0) cursorY = 0;
-        else if(cursorY > 1) cursorY = 1;
-
-        CursorImplementor cursor = Utils.getWeakReference(GLFW.cursorImpl);
-        if(cursor != null) cursor.onCursorPosition();
+        if(!grabbing) {
+            // Only clamp and update cursor view when not grabbed —
+            // during grabbed mode the cursor is hidden so these are wasted work
+            if(cursorX < 0) cursorX = 0;
+            else if(cursorX > 1) cursorX = 1;
+            if(cursorY < 0) cursorY = 0;
+            else if(cursorY > 1) cursorY = 1;
+            CursorImplementor cursor = Utils.getWeakReference(GLFW.cursorImpl);
+            if(cursor != null) cursor.onCursorPosition();
+        }
+        // Always send position to native — GLFW computes camera rotation delta from this
         sendMousePosition0(cursorX, cursorY);
     }
 

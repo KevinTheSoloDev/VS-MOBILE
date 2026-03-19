@@ -1,28 +1,2 @@
 ninja: Entering directory `/workspaces/VS-MOBILE/app/.cxx/Debug/4d1t275z/arm64-v8a'
-[1/23] Building C object CMakeFiles/dnbootstrap.dir/dnbootstrap.c.o
-[2/23] Building C object glfw34/src/CMakeFiles/glfw.dir/init.c.o
-[3/23] Building C object glfw34/src/CMakeFiles/glfw.dir/context.c.o
-[4/23] Building C object glfw34/src/CMakeFiles/glfw.dir/platform.c.o
-[5/23] Building C object glfw34/src/CMakeFiles/glfw.dir/monitor.c.o
-[6/23] Building C object glfw34/src/CMakeFiles/glfw.dir/input.c.o
-[7/23] Building C object glfw34/src/CMakeFiles/glfw.dir/vulkan.c.o
-[8/23] Building C object glfw34/src/CMakeFiles/glfw.dir/window.c.o
-[9/23] Building C object glfw34/src/CMakeFiles/glfw.dir/egl_context.c.o
-[10/23] Building C object glfw34/src/CMakeFiles/glfw.dir/null_init.c.o
-[11/23] Building C object glfw34/src/CMakeFiles/glfw.dir/osmesa_context.c.o
-[12/23] Building C object glfw34/src/CMakeFiles/glfw.dir/posix_time.c.o
-[13/23] Building C object glfw34/src/CMakeFiles/glfw.dir/null_monitor.c.o
-[14/23] Building C object glfw34/src/CMakeFiles/glfw.dir/null_joystick.c.o
-[15/23] Building C object glfw34/src/CMakeFiles/glfw.dir/null_window.c.o
-[16/23] Building C object glfw34/src/CMakeFiles/glfw.dir/posix_module.c.o
-[17/23] Building C object glfw34/src/CMakeFiles/glfw.dir/android_init.c.o
-[18/23] Building C object glfw34/src/CMakeFiles/glfw.dir/posix_thread.c.o
-[19/23] Building C object glfw34/src/CMakeFiles/glfw.dir/android_joystick.c.o
-[20/23] Building C object glfw34/src/CMakeFiles/glfw.dir/android_monitor.c.o
-[21/23] Building C object glfw34/src/CMakeFiles/glfw.dir/android_window.c.o
-/workspaces/VS-MOBILE/app/src/main/cpp/glfw34/src/android_window.c:225:12: warning: unused function 'translate_android_action_button' [-Wunused-function]
-  225 | static int translate_android_action_button(int32_t actionButton) {
-      |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-1 warning generated.
-[22/23] Linking C shared library /workspaces/VS-MOBILE/app/build/intermediates/cxx/Debug/4d1t275z/obj/arm64-v8a/libglfw.so
-[23/23] Linking C shared library /workspaces/VS-MOBILE/app/build/intermediates/cxx/Debug/4d1t275z/obj/arm64-v8a/libdnbootstrap.so
+ninja: no work to do.

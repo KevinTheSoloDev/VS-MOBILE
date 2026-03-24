@@ -93,16 +93,24 @@ public class MainActivity extends Activity implements SoftInputCallback, LayoutE
         layoutEditor = LayoutInflater.from(this).inflate(R.layout.controls_editor, controlLayoutParent, false);
         ControlEditorLayout editorLayout = layoutEditor.findViewById(R.id.control_layout_editor);
         editorLayout.setEditorHost(this);
+        // Pass currently active layout so editor loads and saves the right file
+        editorLayout.setEditingLayoutName(controlLayout.getCurrentLayoutName());
         controlLayoutParent.addView(layoutEditor);
     }
 
     @Override
     public void exitLayoutEditor() {
         if(layoutEditor == null) return;
+        // Find editor to get the layout name that was saved
+        git.artdeell.dnbootstrap.input.editor.ControlEditorLayout editorLayout =
+                layoutEditor.findViewById(R.id.control_layout_editor);
+        String savedLayoutName = editorLayout != null
+                ? editorLayout.getEditingLayoutName() : controlLayout.getCurrentLayoutName();
         ViewGroup editorParent = (ViewGroup) layoutEditor.getParent();
         editorParent.removeView(layoutEditor);
         editorParent.addView(controlLayout);
-        controlLayout.loadAsync();
+        // Reload the layout that was just edited
+        controlLayout.loadByName(savedLayoutName);
         layoutEditor = null;
     }
 

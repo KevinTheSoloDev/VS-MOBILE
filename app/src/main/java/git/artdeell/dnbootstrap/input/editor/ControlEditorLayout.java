@@ -135,10 +135,25 @@ public class ControlEditorLayout extends LoadableButtonLayout {
         return layoutDescription;
     }
 
+    // Name of layout currently being edited — set by MainActivity before opening editor
+    private String editingLayoutName = "layout-default.json";
+
+    public void setEditingLayoutName(String name) {
+        this.editingLayoutName = name;
+        loadByName(name); // load the correct layout into the editor
+    }
+
+    public String getEditingLayoutName() { return editingLayoutName; }
+
     public boolean saveAsync() {
         LayoutDescription layoutDescription = save();
         if(layoutDescription == null) return false;
-        File layoutPath = new File(getContext().getFilesDir(), "layout.json");
+        // Save to external layouts dir — user accessible, survives reinstalls
+        // Path: /sdcard/Android/data/git.artdeell.dnbootstrap/files/layouts/<name>
+        File externalDir = new File(getContext().getExternalFilesDir(null), "layouts");
+        //noinspection ResultOfMethodCallIgnored
+        externalDir.mkdirs();
+        File layoutPath = new File(externalDir, editingLayoutName);
         new Thread(()->{
             Gson gson = controlsGson().setPrettyPrinting().create();
             try(FileOutputStream fileOutputStream = new FileOutputStream(layoutPath)) {

@@ -28,6 +28,9 @@ import git.artdeell.dnbootstrap.input.model.VisibilityConfiguration;
 public class ControlButton extends androidx.appcompat.widget.AppCompatTextView implements LayoutTouchConsumer, LayoutEditable, Recreatable, GrabListener {
     public final ControlButtonData controlButtonData;
     private boolean firstTouch = true;
+    // Debounce timestamp — prevents accidental Edit/Switch triggers
+    private long lastSpecialKeyTime = 0;
+    private static final long SPECIAL_KEY_DEBOUNCE_MS = 500;
     private double initialCursorX;
     private double initialCursorY;
     private float initialTouchX, initialTouchY;
@@ -73,7 +76,11 @@ public class ControlButton extends androidx.appcompat.widget.AppCompatTextView i
                 break;
             case KeyCodes.SPECIAL_KEY_OPEN_EDITOR:
                 if(context instanceof LayoutEditorHost) {
-                    ((LayoutEditorHost)context).openLayoutEditor();
+                    long nowEdit = System.currentTimeMillis();
+                    if (nowEdit - lastSpecialKeyTime >= SPECIAL_KEY_DEBOUNCE_MS) {
+                        lastSpecialKeyTime = nowEdit;
+                        ((LayoutEditorHost)context).openLayoutEditor();
+                    }
                 }
                 break;
         }
@@ -120,11 +127,6 @@ public class ControlButton extends androidx.appcompat.widget.AppCompatTextView i
         }
     }
 
-    // Hold detection for SPECIAL_KEY_SWITCH_LAYOUT
-    private static final long HOLD_DURATION_MS = 500;
-    private final Handler holdHandler = new Handler();
-    private Runnable holdRunnable = null;
-
     @Override
     public void onTouchState(boolean isTouched) {
         int state = isTouched ? KeyCodes.GLFW_PRESS : KeyCodes.GLFW_RELEASE;
@@ -133,22 +135,17 @@ public class ControlButton extends androidx.appcompat.widget.AppCompatTextView i
         }
         if (isTouched) {
             firstTouch = true;
-            // Start hold timer for SWITCH_LAYOUT key
+            // Cycle layout on press — debounced to prevent accidental switches
+            long now = System.currentTimeMillis();
             for (int keyCode : controlButtonData.keyCodes) {
                 if (keyCode == KeyCodes.SPECIAL_KEY_SWITCH_LAYOUT) {
-                    holdRunnable = () -> {
+                    if (now - lastSpecialKeyTime >= SPECIAL_KEY_DEBOUNCE_MS) {
+                        lastSpecialKeyTime = now;
                         ControlLayout cl = findControlLayout();
                         if (cl != null) cl.showLayoutPicker();
-                    };
-                    holdHandler.postDelayed(holdRunnable, HOLD_DURATION_MS);
+                    }
                     break;
                 }
-            }
-        } else {
-            // Cancel hold if finger lifted before threshold
-            if (holdRunnable != null) {
-                holdHandler.removeCallbacks(holdRunnable);
-                holdRunnable = null;
             }
         }
     }

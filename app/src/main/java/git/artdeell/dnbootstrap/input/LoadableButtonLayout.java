@@ -86,12 +86,24 @@ public class LoadableButtonLayout extends ViewGroup {
         }).start();
     }
 
-    // Load a specific layout asset by filename (e.g. "layout-two.json")
-    public void loadByName(String assetFileName) {
+    // Load a specific layout by filename.
+    // First checks external dir (user-editable), then falls back to APK assets.
+    // External path: /sdcard/Android/data/git.artdeell.dnbootstrap/files/layouts/<name>
+    public void loadByName(String fileName) {
         new Thread(() -> {
             try {
-                AssetManager assetManager = getContext().getAssets();
-                try (InputStream stream = assetManager.open(assetFileName)) {
+                // Try external files dir first
+                java.io.File externalDir = new java.io.File(
+                        getContext().getExternalFilesDir(null), "layouts");
+                java.io.File externalFile = new java.io.File(externalDir, fileName);
+                if (externalFile.exists()) {
+                    try (InputStream stream = new java.io.FileInputStream(externalFile)) {
+                        loadFromStream(stream);
+                        return;
+                    }
+                }
+                // Fall back to APK assets
+                try (InputStream stream = getContext().getAssets().open(fileName)) {
                     loadFromStream(stream);
                 }
             } catch (Exception e) {
@@ -171,7 +183,9 @@ public class LoadableButtonLayout extends ViewGroup {
                 childTop = (h / 2 + layoutParams.offsetVertical) * gridPitch;
                 break;
             default:
-                throw new RuntimeException("Unknown vertical alignment type "+ layoutParams.alignmentVertical);
+                // Fallback to TOP for unknown values (e.g. 0 from Gson deserialization)
+                childTop = layoutParams.offsetVertical * gridPitch;
+                break;
         }
 
         childTop += paddingTop;
@@ -225,8 +239,18 @@ public class LoadableButtonLayout extends ViewGroup {
         public int alignmentVertical = ALIGNMENT_TOP;
         public int offsetHorizontal;
         public int offsetVertical;
+        // No-arg constructor for Gson deserialization
+        // Must explicitly set defaults since Gson bypasses field initializers
+        public LayoutParams() {
+            super(6, 6);
+            alignmentHorizontal = ALIGNMENT_LEFT;
+            alignmentVertical = ALIGNMENT_TOP;
+        }
+
         public LayoutParams(int width, int height) {
             super(width, height);
+            alignmentHorizontal = ALIGNMENT_LEFT;
+            alignmentVertical = ALIGNMENT_TOP;
         }
 
         public LayoutParams(ViewGroup.LayoutParams source) {

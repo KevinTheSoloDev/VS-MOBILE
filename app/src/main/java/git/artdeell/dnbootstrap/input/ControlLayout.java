@@ -1,8 +1,6 @@
 package git.artdeell.dnbootstrap.input;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.res.AssetManager;
 import android.graphics.Rect;
 import android.os.Handler;
@@ -44,6 +42,8 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
     private String[] availableLayouts = null;
     private String currentLayoutName = "layout-default.json";
 
+    public String getCurrentLayoutName() { return currentLayoutName; }
+
     public ControlLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         GLFW.addGrabListener(this);
@@ -61,63 +61,64 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
         super(context);
     }
 
-    // Unwrap context wrappers to find the underlying Activity
-    // AlertDialog requires an Activity context — View.getContext() may return a wrapper
-    private Context getActivityContext() {
-        Context ctx = getContext();
-        while (ctx instanceof ContextWrapper) {
-            if (ctx instanceof android.app.Activity) return ctx;
-            ctx = ((ContextWrapper) ctx).getBaseContext();
-        }
-        return getContext(); // fallback
-    }
-
     // Called by ControlButton when SPECIAL_KEY_SWITCH_LAYOUT is held
+    // Called by ControlButton when SPECIAL_KEY_SWITCH_LAYOUT is pressed.
+    // Cycles through layouts found in external files dir + assets.
+    // External dir (/sdcard/Android/data/git.artdeell.dnbootstrap/files/layouts/)
+    // is user-accessible — copy layout JSON files there to add more layouts.
     public void showLayoutPicker() {
         if (availableLayouts == null) {
-            try {
-                AssetManager am = getContext().getAssets();
-                String[] all = am.list("");
-                List<String> layouts = new ArrayList<>();
-                if (all != null) {
-                    for (String name : all) {
-                        if (name.startsWith("layout-") && name.endsWith(".json")) {
-                            layouts.add(name);
-                        }
-                    }
-                }
-                availableLayouts = layouts.toArray(new String[0]);
-            } catch (Exception e) {
-                availableLayouts = new String[]{"layout-default.json"};
-            }
+            availableLayouts = discoverLayouts();
         }
-
         if (availableLayouts.length <= 1) {
-            Toast.makeText(getActivityContext(), "No other layouts found in assets", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "No other layouts found", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        String[] displayNames = new String[availableLayouts.length];
+        // Find current and advance to next
+        int currentIdx = 0;
         for (int i = 0; i < availableLayouts.length; i++) {
-            String name = availableLayouts[i]
-                    .replace("layout-", "")
-                    .replace(".json", "");
-            name = name.substring(0, 1).toUpperCase() + name.substring(1);
-            displayNames[i] = availableLayouts[i].equals(currentLayoutName)
-                    ? name + "  \u2713" : name;
+            if (availableLayouts[i].equals(currentLayoutName)) {
+                currentIdx = i;
+                break;
+            }
         }
+        currentLayoutName = availableLayouts[(currentIdx + 1) % availableLayouts.length];
 
-        post(() -> new AlertDialog.Builder(getActivityContext())
-                .setTitle("Switch HUD Layout")
-                .setItems(displayNames, (dialog, which) -> {
-                    String chosen = availableLayouts[which];
-                    if (!chosen.equals(currentLayoutName)) {
-                        currentLayoutName = chosen;
-                        loadByName(chosen);
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .show());
+        String displayName = currentLayoutName
+                .replace("layout-", "").replace(".json", "");
+        displayName = displayName.substring(0, 1).toUpperCase() + displayName.substring(1);
+        Toast.makeText(getContext(), "HUD: " + displayName, Toast.LENGTH_SHORT).show();
+
+        loadByName(currentLayoutName);
+    }
+
+    private String[] discoverLayouts() {
+        List<String> layouts = new ArrayList<>();
+        // External layouts — user can place layout-*.json files here
+        java.io.File externalDir = new java.io.File(
+                getContext().getExternalFilesDir(null), "layouts");
+        if (externalDir.exists()) {
+            java.io.File[] files = externalDir.listFiles();
+            if (files != null) {
+                for (java.io.File f : files) {
+                    if (f.getName().startsWith("layout-") && f.getName().endsWith(".json"))
+                        layouts.add(f.getName());
+                }
+            }
+        }
+        // Bundled asset layouts
+        try {
+            String[] assets = getContext().getAssets().list("");
+            if (assets != null) {
+                for (String name : assets) {
+                    if (name.startsWith("layout-") && name.endsWith(".json")
+                            && !layouts.contains(name))
+                        layouts.add(name);
+                }
+            }
+        } catch (Exception ignored) {}
+        if (layouts.isEmpty()) layouts.add("layout-default.json");
+        return layouts.toArray(new String[0]);
     }
 
     @Override

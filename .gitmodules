@@ -1,3 +1,0 @@
-[submodule "app/src/main/cpp/glfw34"]
-	path = app/src/main/cpp/glfw34
-	url = https://github.com/VSMobile/glfw

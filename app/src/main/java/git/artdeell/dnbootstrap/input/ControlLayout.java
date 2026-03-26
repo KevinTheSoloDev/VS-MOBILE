@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Rect;
 import android.os.Handler;
+import android.view.Choreographer;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -277,7 +278,9 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
 
         public void onTouchPosition(int pointerId, float x, float y) {
             if (pointerId != firstTouchedPointer) return;
-            consumer.onTouchPosition(x - consumer.getLeft(), y - consumer.getTop());
+            // Coordinates are already in local space — processPointer subtracted
+            // consumer.getLeft()/getTop() before calling here, so don't do it again
+            consumer.onTouchPosition(x, y);
         }
 
         public void reset() {
@@ -323,6 +326,11 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
             deltaReady = false;
         }
 
+        // JNI batching: accumulate deltas across multiple touch events,
+        // send a single sendMousePos() per display frame via Choreographer.
+        // Reduces JNI crossings from N-per-frame to exactly 1-per-frame.
+        private boolean framePending = false;
+
         @Override
         public void onTouchPosition(float x, float y) {
             if (!deltaReady) {
@@ -334,7 +342,7 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
                 if (cursorToTouch && !GLFW.isGrabbing()) {
                     GLFW.cursorX = x / getWidth();
                     GLFW.cursorY = y / getHeight();
-                    GLFW.sendMousePos();
+                    scheduleSendMousePos();
                 }
                 return;
             }
@@ -350,26 +358,38 @@ public class ControlLayout extends LoadableButtonLayout implements GrabListener 
                 GLFW.sendMouseEvent(MouseCodes.GLFW_MOUSE_BUTTON_LEFT, KeyCodes.GLFW_PRESS, 0);
             }
 
+            // Accumulate cursor delta — actual JNI call is batched to next vsync
             if (GLFW.isGrabbing()) {
                 float deltaX = x - lastX;
                 float deltaY = y - lastY;
                 GLFW.cursorX += deltaX / getWidth();
                 GLFW.cursorY += deltaY / getHeight();
-                GLFW.sendMousePos();
             } else if (cursorToTouch) {
                 GLFW.cursorX = x / getWidth();
                 GLFW.cursorY = y / getHeight();
-                GLFW.sendMousePos();
             } else {
                 float deltaX = x - lastX;
                 float deltaY = y - lastY;
                 GLFW.cursorX += deltaX / getWidth();
                 GLFW.cursorY += deltaY / getHeight();
-                GLFW.sendMousePos();
             }
+            scheduleSendMousePos();
 
             lastX = x;
             lastY = y;
+        }
+
+        // Post a single sendMousePos() to the next Choreographer frame callback.
+        // If multiple touch events arrive before the next frame, they all share
+        // the same callback — only one JNI call fires per display refresh.
+        private void scheduleSendMousePos() {
+            if (!framePending) {
+                framePending = true;
+                Choreographer.getInstance().postFrameCallback(frameTimeNanos -> {
+                    framePending = false;
+                    GLFW.sendMousePos();
+                });
+            }
         }
 
         @Override public void setVisibility(int visibility) {}

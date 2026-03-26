@@ -46,6 +46,7 @@ public class MainActivity extends Activity implements SoftInputCallback, LayoutE
     private View layoutEditor;
 
     private static boolean isRunning = false;
+    private ThermalManager thermalManager;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -64,6 +65,8 @@ public class MainActivity extends Activity implements SoftInputCallback, LayoutE
             isRunning = true;
             new Thread(this::kickstart).start();
         }
+        thermalManager = new ThermalManager(this);
+        thermalManager.start();
 
         // --- NEW: Handle Zip Install on startup ---
         handleZipIntent(getIntent());
@@ -114,6 +117,18 @@ public class MainActivity extends Activity implements SoftInputCallback, LayoutE
         layoutEditor = null;
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (thermalManager != null) thermalManager.checkCurrentState();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (thermalManager != null) thermalManager.stop();
+    }
 
     public void kickstart() {
         try {

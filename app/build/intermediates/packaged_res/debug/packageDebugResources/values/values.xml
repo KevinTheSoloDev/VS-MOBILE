@@ -58,7 +58,7 @@
     <string name="manage_data_uninstall_game">Uninstall Vintage Story (preserves user data)</string>
     <string name="require_game_copy">Please download a copy of Vintage Story 1.21.6 (Linux version: vs_client_linux-*.tar.gz) from the Client Area and then select it in your file manager using the button below.\n\n This application is EXPERIMENTAL and you may find BUGS or it may NOT WORK FOR YOU AT ALL.</string>
     <string name="select">Select</string>
-    <string name="storageProviderAuthorities">git.artdeell.dnboostrap.gamefiles</string>
+    <string name="storageProviderAuthorities">git.artdeell.dnbootstrap.gamefiles</string>
     <style name="AppTheme" parent="@style/Theme.AppCompat">
         <item name="controlButtonStyle">@style/ControlButton</item>
         <item name="joystickStyle">@style/Joystick</item>

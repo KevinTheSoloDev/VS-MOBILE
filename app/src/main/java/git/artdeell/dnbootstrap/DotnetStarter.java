@@ -33,14 +33,14 @@ public class DotnetStarter {
             Os.setenv("LIBGL_NOERROR", "1", true);
 
             // ── GC tuning ──────────────────────────────────────────────────
-            Os.setenv("DOTNET_GCHeapHardLimit", "536870912", true);
-            Os.setenv("DOTNET_GCConserveMemory", "5", true);
+            Os.setenv("DOTNET_GCHeapHardLimit", "805306368", true); // 768MB — more headroom reduces collection frequency
+            Os.setenv("DOTNET_GCConserveMemory", "7", true);        // more aggressive memory conservation
             Os.setenv("DOTNET_GCHighMemPercent", "65", true);
-            Os.setenv("DOTNET_GCServer", "0", true);         // workstation GC — server GC spins threads 24/7, too hot for mobile
+            Os.setenv("DOTNET_GCServer", "0", true);               // workstation GC — server GC spins threads 24/7
             Os.setenv("DOTNET_GCConcurrent", "1", true);
-            Os.setenv("DOTNET_GCHeapCount", "2", true);
+            Os.setenv("DOTNET_GCHeapCount", "1", true);            // single GC thread — less contention on render loop
             Os.setenv("DOTNET_GCRegionsView", "0", true);
-            Os.setenv("DOTNET_GCLatencyLevel", "1", true);   // low-latency GC mode — shorter pauses, better frame pacing
+            Os.setenv("DOTNET_GCLatencyLevel", "1", true);         // low-latency GC mode — shorter pauses
 
             // ── Threading ──────────────────────────────────────────────────
             Os.setenv("DOTNET_Thread_UseAllCpuGroups", "0", true);
@@ -50,8 +50,9 @@ public class DotnetStarter {
             // ── Tiered JIT / startup ───────────────────────────────────────
             Os.setenv("DOTNET_TieredCompilation", "1", true);
             Os.setenv("DOTNET_TieredPGO", "1", true);
-            Os.setenv("DOTNET_ReadyToRun", "1", true);
-            Os.setenv("DOTNET_TC_QuickJitForLoops", "1", true);  // faster JIT for loop-heavy code (chunk gen, lighting, noise)
+            Os.setenv("DOTNET_ReadyToRun", "1", true);            // keep R2R — faster startup, ARM64 JIT optimises hot paths via PGO
+            Os.setenv("DOTNET_TC_QuickJitForLoops", "1", true);
+            Os.setenv("DOTNET_TC_AggressiveInlining", "1", true); // inline hot render loop calls
 
             // ── ARM64 SIMD / hardware intrinsics ──────────────────────────
             Os.setenv("DOTNET_EnableHWIntrinsic", "1", true);      // enable ARM hardware intrinsics

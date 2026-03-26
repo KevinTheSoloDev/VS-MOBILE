@@ -736,7 +736,7 @@
     <string name="search_menu_title">Search</string>
     <string name="select">Select</string>
     <string name="status_bar_notification_info_overflow">999+</string>
-    <string name="storageProviderAuthorities">git.artdeell.dnboostrap.gamefiles</string>
+    <string name="storageProviderAuthorities">git.artdeell.dnbootstrap.gamefiles</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>
     <style name="Animation.AppCompat.Dialog" parent="Base.Animation.AppCompat.Dialog"/>

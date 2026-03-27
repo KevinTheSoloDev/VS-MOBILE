@@ -95,3 +95,6 @@
 8651	8799	1774508660466266854	glfw34/src/CMakeFiles/glfw.dir/android_init.c.o	3025a03f44e87821
 8712	8831	1774508660504266855	glfw34/src/CMakeFiles/glfw.dir/android_joystick.c.o	7ecafdf72c6379c3
 8739	8880	1774508660548266856	glfw34/src/CMakeFiles/glfw.dir/android_monitor.c.o	916e4991b2b65951
+2	620	1774530021396242565	glfw34/src/CMakeFiles/glfw.dir/android_window.c.o	44a81300b65195d6
+620	3296	1774530024070242613	/workspaces/VS-MOBILE/app/build/intermediates/cxx/Debug/4d1t275z/obj/arm64-v8a/libglfw.so	ec52652e92eb07b1
+3296	3321	1774530024097242613	/workspaces/VS-MOBILE/app/build/intermediates/cxx/Debug/4d1t275z/obj/arm64-v8a/libdnbootstrap.so	1ce4456aa85c3290

@@ -17,16 +17,27 @@ Previously, selecting hotbar slots required placing 10 individual number buttons
 ### 🕹️ Joystick Support *(by Temder)*
 A virtual joystick control is now available in the HUD layout editor, along with other editor improvements contributed by Temder.
 
-### ⚡ Performance Optimisations
-Several changes to reduce CPU heat and improve frame pacing:
+### ⚡ Performance Work
+Changes to reduce CPU heat and improve frame pacing:
 
-- **Fixed bitmask bug** in the native GLFW layer (`>>` → `<<`) that caused input flags to be silently ignored
+- **Fixed bitmask bug** in the native GLFW layer (`>>` → `<<`). `FLAG_APP_FOCUS` was `(1 >> 1)`, i.e. `0`, so it could never be set in `update_flags`
 - **Removed spurious pipe write** that fired on every event loop cycle with no effect
 - **Coalesced cursor redraws** — rapid touch-move events no longer flood the UI thread with individual invalidate calls
-- **20 .NET runtime tuning flags** added at startup covering GC mode, heap limits, tiered JIT, ARM64 SIMD, thread pool sizing, and diagnostics suppression
-- **Workstation GC mode enforced** — server GC spins dedicated background threads continuously and is unsuitable for mobile thermal budgets
+- **Runtime tuning corrected.** The bundled `libcoreclr.so` is actually a **Mono** build, so the ~20 `DOTNET_GC*` / `DOTNET_Tiered*` / `DOTNET_TC*` variables set previously were read by nothing. They have been replaced with `MONO_ENV_OPTIONS` tokens each verified against the shipped binary. See [docs/PERFORMANCE.md](docs/PERFORMANCE.md).
+- **Thermal frame-rate capping is now opt-in.** It previously clamped the swap interval to 2 (and 3 at critical) as soon as the device hit `THERMAL_STATUS_MODERATE`, silently pinning FPS at refresh/2 — 60 on a 120 Hz panel, 30 on a 60 Hz one — no matter what the game asked for.
 
-Observed improvement on mid-to-high-end devices: roughly **40–50% FPS gain** and noticeably lower sustained temperatures.
+### 🐛 Bug Fixes
+- **Scroll buttons crashed.** `GLFW.sendScrollEvent` was declared native in Java but never implemented in the GLFW port, and its call site has no catch — so pressing an `SP_MOUSE_SCROLL_UP`/`DOWN` button raised an uncaught `UnsatisfiedLinkError`. Implemented end to end.
+- **`ThermalManager.setSwapInterval` was unimplemented** in the GLFW port too, so thermal throttling silently no-op'd.
+- **Extraction could silently abort.** A null progress callback threw an NPE that unwound through `runCatching()`, stopping the install with no error shown.
+- **`dnbootstrap.c`** continued into `dlopen()` on an undefined buffer when the hostfxr lookup failed, and leaked JNI strings.
+- **Tar extraction** now rejects entries that resolve outside the install directory.
+
+> ⚠️ **Correction:** an earlier revision of this README claimed a measured
+> "40–50% FPS gain" from the runtime tuning flags. Those flags were inert — this
+> runtime ignores `DOTNET_*` — so that figure was not attributable to them and
+> has been withdrawn. The current changes are not yet benchmarked; see
+> [docs/PERFORMANCE.md §6](docs/PERFORMANCE.md) for how to measure them.
 
 ---
 
@@ -68,6 +79,22 @@ For the best performance on mobile, apply these settings after first launch:
 
 **World**
 - Reduce **View Distance** — values around `96`–`128` are a good balance on mobile
+
+### Runtime tuning files
+
+Two optional files in the app's files dir
+(`/data/data/git.artdeell.dnbootstrap/files/`, reachable through the in-app file
+manager) change runtime behaviour without a rebuild:
+
+| File | Effect |
+|---|---|
+| `mono-env.txt` | First non-empty, non-`#` line replaces the Mono runtime options. A single blank line disables runtime tuning. |
+| `thermal-throttle.txt` | `on` re-enables thermal frame-rate capping (off by default). |
+
+Note that with vsync on, frame rate can only ever be `refresh rate / swap
+interval` — a target above your panel's refresh rate is not reachable. See
+[docs/PERFORMANCE.md](docs/PERFORMANCE.md) for the full analysis, and
+[docs/AOT-PLAN.md](docs/AOT-PLAN.md) for the AOT path.
 
 ---
 

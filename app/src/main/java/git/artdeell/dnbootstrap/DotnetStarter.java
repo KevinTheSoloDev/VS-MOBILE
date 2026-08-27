@@ -1,8 +1,11 @@
 package git.artdeell.dnbootstrap;
 
 import android.system.Os;
+import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 
 import git.artdeell.dnbootstrap.assets.AppDirs;
@@ -10,11 +13,75 @@ import git.artdeell.dnbootstrap.utils.SymlinkUtil;
 
 public class DotnetStarter {
 
+    private static final String TAG = "DotnetStarter";
+
+    /*
+     * The bundled runtime is Mono, not CoreCLR -- tune it through Mono's knobs.
+     *
+     * assets/dotnet-runtime.tgz ships libcoreclr.so 8.0.22 (arm64) that is
+     * actually a Mono build (source paths inside it read
+     * /home/maks/dotnet/runtime-8.0/src/mono). Verified against the binary:
+     *
+     *   exports  mono_gc_*, mono_aot_*, mono_interp_*
+     *   contains SGen strings (GC_MAJOR / GC_MINOR / GC_NEW_BRIDGE)
+     *   contains zero CoreCLR JIT symbols
+     *            (ICorJitCompiler, corjit, WKS::gc_heap,
+     *             TieredCompilation, OnStackReplacement -> 0 hits)
+     *   recognises MONO_ENV_OPTIONS
+     *
+     * Consequence: every DOTNET_GC*, DOTNET_Tiered*, DOTNET_TC*,
+     * DOTNET_EnableHWIntrinsic and DOTNET_JitEnableArm64Simd variable is
+     * silently ignored by this runtime. Only the diagnostics variables below
+     * are actually read by Mono.
+     *
+     * Each token here was confirmed present in that exact libcoreclr.so:
+     *   --gc=[sgen,boehm]
+     *   --gc-params= nursery-size=N | minor=[simple,split]
+     *                major=[marksweep,marksweep-conc,marksweep-par]
+     *   --optimize=  inline cfold deadce consprop copyprop fcmov leaf loop
+     *                float32 simd abcrem ssapre
+     *
+     * LLVM is NOT available in this build: `nm -D` shows no LLVMInitialize*
+     * symbols, only mono_set_use_llvm/mono_use_llvm, and the binary carries
+     * "--aot=llvm requires a runtime compiled with llvm support." So --llvm is
+     * deliberately not passed.
+     *
+     * These are startup tuning knobs. Measure them; do not trust them.
+     */
+    private static final String DEFAULT_MONO_ENV_OPTIONS =
+            "--gc=sgen"
+            + " --gc-params=nursery-size=16m,minor=split,major=marksweep-conc"
+            + " --optimize=inline,cfold,deadce,consprop,copyprop,fcmov,leaf,loop,float32,simd,abcrem,ssapre";
+
+    /**
+     * Escape hatch: drop {@code mono-env.txt} into the app's files dir and its
+     * first non-empty, non-# line replaces the defaults entirely. A single blank
+     * line disables runtime tuning. Lets people tune without rebuilding the APK.
+     */
+    private static final String MONO_ENV_OVERRIDE_FILE = "mono-env.txt";
+
     private static File findCertsDir() {
         File certsDir = new File("/apex/com.android.conscrypt/cacerts/");
         if(certsDir.exists()) return certsDir;
         certsDir = new File("/system/etc/security/cacerts");
         if(certsDir.exists()) return certsDir;
+        return null;
+    }
+
+    private static String readMonoEnvOverride(AppDirs appDirs) {
+        File override = new File(appDirs.base, MONO_ENV_OVERRIDE_FILE);
+        if(!override.isFile()) return null;
+        try(BufferedReader reader = new BufferedReader(new FileReader(override))) {
+            String line;
+            while((line = reader.readLine()) != null) {
+                line = line.trim();
+                if(line.isEmpty() || line.startsWith("#")) continue;
+                return line;
+            }
+        }catch (IOException e) {
+            Log.w(TAG, "Could not read " + MONO_ENV_OVERRIDE_FILE + ", using defaults", e);
+            return null;
+        }
         return null;
     }
 
@@ -32,36 +99,38 @@ public class DotnetStarter {
             Os.setenv("SSL_CERT_DIR", certsDir.getAbsolutePath(), true);
             Os.setenv("LIBGL_NOERROR", "1", true);
 
-            // ── GC tuning ──────────────────────────────────────────────────
-            Os.setenv("DOTNET_GCHeapHardLimit", "805306368", true); // 768MB — more headroom reduces collection frequency
-            Os.setenv("DOTNET_GCConserveMemory", "7", true);        // more aggressive memory conservation
-            Os.setenv("DOTNET_GCHighMemPercent", "65", true);
-            Os.setenv("DOTNET_GCServer", "0", true);               // workstation GC — server GC spins threads 24/7
-            Os.setenv("DOTNET_GCConcurrent", "1", true);
-            Os.setenv("DOTNET_GCHeapCount", "1", true);            // single GC thread — less contention on render loop
-            Os.setenv("DOTNET_GCRegionsView", "0", true);
-            Os.setenv("DOTNET_GCLatencyLevel", "1", true);         // low-latency GC mode — shorter pauses
+            // ── Mono runtime tuning (the only mechanism this runtime honours) ──
+            String monoEnvOptions = readMonoEnvOverride(appDirs);
+            if(monoEnvOptions == null) {
+                monoEnvOptions = DEFAULT_MONO_ENV_OPTIONS;
+                Log.i(TAG, "MONO_ENV_OPTIONS (default): " + monoEnvOptions);
+            } else {
+                Log.i(TAG, "MONO_ENV_OPTIONS (override): " + monoEnvOptions);
+            }
 
-            // ── Threading ──────────────────────────────────────────────────
-            Os.setenv("DOTNET_Thread_UseAllCpuGroups", "0", true);
-            Os.setenv("DOTNET_ThreadPool_UnfairSemaphoreSpinLimit", "0", true);
-            Os.setenv("DOTNET_ThreadPool_MinThreads", "4", true);  // VS uses threads for chunk gen/lighting; ensure enough are ready
+            // Pick up AOT images if tools/aot/build-aot.sh produced them.
+            // Mono silently ignores images whose version or dependency GUIDs do
+            // not match, so a stale or empty directory is harmless.
+            File aotDir = new File(trueVsDir, "aot");
+            if(aotDir.isDirectory()) {
+                File[] images = aotDir.listFiles((d, n) -> n.endsWith(".so"));
+                if(images != null && images.length > 0) {
+                    monoEnvOptions += " --aot-path=" + aotDir.getAbsolutePath();
+                    Log.i(TAG, "AOT images found: " + images.length + " in " + aotDir);
+                } else {
+                    Log.i(TAG, "aot/ exists but holds no .so files; not passing --aot-path");
+                }
+            }
 
-            // ── Tiered JIT / startup ───────────────────────────────────────
-            Os.setenv("DOTNET_TieredCompilation", "1", true);
-            Os.setenv("DOTNET_TieredPGO", "1", true);
-            Os.setenv("DOTNET_ReadyToRun", "1", true);            // keep R2R — faster startup, ARM64 JIT optimises hot paths via PGO
-            Os.setenv("DOTNET_TC_QuickJitForLoops", "1", true);
-            Os.setenv("DOTNET_TC_AggressiveInlining", "1", true); // inline hot render loop calls
+            if(!monoEnvOptions.isEmpty()) Os.setenv("MONO_ENV_OPTIONS", monoEnvOptions, true);
 
-            // ── ARM64 SIMD / hardware intrinsics ──────────────────────────
-            Os.setenv("DOTNET_EnableHWIntrinsic", "1", true);      // enable ARM hardware intrinsics
-            Os.setenv("DOTNET_JitEnableArm64Simd", "1", true);     // explicit ARM64 NEON SIMD in JIT — faster math, noise, lighting
+            // Cooperative suspension avoids the signal-based preemption path,
+            // which costs extra syscalls at every GC safepoint.
+            Os.setenv("MONO_THREADS_SUSPEND", "coop", true);
 
-            // ── Diagnostics ────────────────────────────────────────────────
+            // ── Diagnostics: these ARE read by Mono (verified in libcoreclr.so) ──
             Os.setenv("DOTNET_EnableDiagnostics", "0", true);
-            Os.setenv("COMPlus_PerfMapEnabled", "0", true);        // disable perf map file generation
-            Os.setenv("COMPlus_EnableEventLog", "0", true);        // disable event log overhead
+            Os.setenv("DOTNET_EnableEventPipe", "0", true);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

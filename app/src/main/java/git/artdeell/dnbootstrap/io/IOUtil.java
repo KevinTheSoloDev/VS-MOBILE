@@ -34,9 +34,19 @@ public class IOUtil {
         byte[] buffer = new byte[65535];
         try(GZIPInputStream gzipInputStream = new GZIPInputStream(inputStream);
             TarArchiveInputStream tarStream = new TarArchiveInputStream(gzipInputStream)) {
+            String canonicalTarget = targetDir.getCanonicalPath();
             TarArchiveEntry entry;
             while((entry = tarStream.getNextEntry()) != null) {
                 File destination = new File(targetDir, entry.getName());
+                // Reject entries that escape targetDir ("../..", absolute paths)
+                // -- a crafted or truncated tarball must not be able to write
+                // outside the install directory.
+                String canonicalDestination = destination.getCanonicalPath();
+                if(!canonicalDestination.equals(canonicalTarget)
+                        && !canonicalDestination.startsWith(canonicalTarget + File.separator)) {
+                    throw new IOException("Refusing to extract '" + entry.getName()
+                            + "': resolves outside " + canonicalTarget);
+                }
                 if(entry.isDirectory()) tryMkdirs(destination);
                 else {
                     tryMkdirs(Objects.requireNonNull(destination.getParentFile()));

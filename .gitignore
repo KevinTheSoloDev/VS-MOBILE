@@ -1,0 +1,25 @@
+# ---- Gradle ----
+.gradle/
+build/
+app/build/
+
+# ---- CMake / NDK intermediates ----
+app/.cxx/
+.cxx/
+
+# ---- Local config ----
+local.properties
+*.iml
+captures/
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
+
+# ---- Keystores / signing (never commit these) ----
+*.jks
+*.keystore
+
+# ---- Python ----
+__pycache__/
+*.pyc

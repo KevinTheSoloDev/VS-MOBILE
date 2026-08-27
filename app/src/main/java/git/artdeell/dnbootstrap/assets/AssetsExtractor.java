@@ -95,6 +95,11 @@ public class AssetsExtractor implements Runnable, ReadCountInputStream.Callback 
 
     private void callProgressCallback() {
         ProgressCallback callback = Utils.getWeakReference(this.callback);
+        // The activity holding this can be gone by the time a chunk finishes.
+        // Dereferencing null threw an NPE out of updateBytesRead, which unwound
+        // through runCatching() and silently aborted the whole extraction --
+        // the user just saw the progress bar stop.
+        if(callback == null) return;
         callback.onProgressChanged();
     }
 

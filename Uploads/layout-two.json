@@ -1,0 +1,278 @@
+{
+    "gridPitch": 10.0,
+    "cursorToTouch": false,
+    "buttonList": [
+        {
+            "type": "button",
+            "label": "W",
+            "keyCodes": [
+                87,
+                0
+            ],
+            "width": 5,
+            "height": 4,
+            "alignmentHorizontal": 0,
+            "alignmentVertical": 2,
+            "offsetHorizontal": 1,
+            "offsetVertical": -8,
+            "showInGame": true,
+            "showInMenu": true
+        },
+        {
+            "type": "button",
+            "label": "A",
+            "keyCodes": [
+                65,
+                0
+            ],
+            "width": 5,
+            "height": 4,
+            "alignmentHorizontal": 0,
+            "alignmentVertical": 2,
+            "offsetHorizontal": 1,
+            "offsetVertical": -4,
+            "showInGame": true,
+            "showInMenu": true
+        },
+        {
+            "type": "button",
+            "label": "S",
+            "keyCodes": [
+                83,
+                0
+            ],
+            "width": 5,
+            "height": 4,
+            "alignmentHorizontal": 0,
+            "alignmentVertical": 2,
+            "offsetHorizontal": 6,
+            "offsetVertical": -4,
+            "showInGame": true,
+            "showInMenu": true
+        },
+        {
+            "type": "button",
+            "label": "D",
+            "keyCodes": [
+                68,
+                0
+            ],
+            "width": 5,
+            "height": 4,
+            "alignmentHorizontal": 0,
+            "alignmentVertical": 2,
+            "offsetHorizontal": 11,
+            "offsetVertical": -4,
+            "showInGame": true,
+            "showInMenu": true
+        },
+        {
+            "type": "button",
+            "label": "PRI",
+            "keyCodes": [
+                -1,
+                0
+            ],
+            "width": 6,
+            "height": 5,
+            "alignmentHorizontal": 2,
+            "alignmentVertical": 2,
+            "offsetHorizontal": 14,
+            "offsetVertical": -9,
+            "showInGame": true,
+            "showInMenu": true
+        },
+        {
+            "type": "button",
+            "label": "SEC",
+            "keyCodes": [
+                -2,
+                0
+            ],
+            "width": 6,
+            "height": 5,
+            "alignmentHorizontal": 2,
+            "alignmentVertical": 2,
+            "offsetHorizontal": 7,
+            "offsetVertical": -9,
+            "showInGame": true,
+            "showInMenu": true
+        },
+        {
+            "type": "button",
+            "label": "Shift",
+            "keyCodes": [
+                340,
+                0
+            ],
+            "width": 5,
+            "height": 4,
+            "alignmentHorizontal": 2,
+            "alignmentVertical": 2,
+            "offsetHorizontal": 1,
+            "offsetVertical": -4,
+            "showInGame": true,
+            "showInMenu": true
+        },
+        {
+            "type": "button",
+            "label": "Inv",
+            "keyCodes": [
+                69,
+                0
+            ],
+            "width": 4,
+            "height": 3,
+            "alignmentHorizontal": 2,
+            "alignmentVertical": 0,
+            "offsetHorizontal": 6,
+            "offsetVertical": 1,
+            "showInGame": true,
+            "showInMenu": true
+        },
+        {
+            "type": "button",
+            "label": "Kbd",
+            "keyCodes": [
+                -4,
+                0
+            ],
+            "width": 4,
+            "height": 3,
+            "alignmentHorizontal": 2,
+            "alignmentVertical": 0,
+            "offsetHorizontal": 11,
+            "offsetVertical": 1,
+            "showInGame": true,
+            "showInMenu": true
+        },
+        {
+            "type": "button",
+            "label": "Flip\nVert",
+            "keyCodes": [
+                70,
+                0
+            ],
+            "width": 5,
+            "height": 4,
+            "alignmentHorizontal": 0,
+            "alignmentVertical": 0,
+            "offsetHorizontal": 1,
+            "offsetVertical": 1,
+            "showInGame": true,
+            "showInMenu": false
+        },
+        {
+            "type": "button",
+            "label": "Rot",
+            "keyCodes": [
+                82,
+                0
+            ],
+            "width": 5,
+            "height": 4,
+            "alignmentHorizontal": 0,
+            "alignmentVertical": 0,
+            "offsetHorizontal": 7,
+            "offsetVertical": 1,
+            "showInGame": true,
+            "showInMenu": false
+        },
+        {
+            "type": "button",
+            "label": "Sel\nNext",
+            "keyCodes": [
+                69,
+                0
+            ],
+            "width": 5,
+            "height": 4,
+            "alignmentHorizontal": 0,
+            "alignmentVertical": 0,
+            "offsetHorizontal": 1,
+            "offsetVertical": 6,
+            "showInGame": true,
+            "showInMenu": false
+        },
+        {
+            "type": "button",
+            "label": "Sel\nPrev",
+            "keyCodes": [
+                81,
+                0
+            ],
+            "width": 5,
+            "height": 4,
+            "alignmentHorizontal": 0,
+            "alignmentVertical": 0,
+            "offsetHorizontal": 7,
+            "offsetVertical": 6,
+            "showInGame": true,
+            "showInMenu": false
+        },
+        {
+            "type": "button",
+            "label": "Scroll\nUp",
+            "keyCodes": [
+                -6,
+                0
+            ],
+            "width": 5,
+            "height": 4,
+            "alignmentHorizontal": 2,
+            "alignmentVertical": 2,
+            "offsetHorizontal": 1,
+            "offsetVertical": -9,
+            "showInGame": true,
+            "showInMenu": false
+        },
+        {
+            "type": "button",
+            "label": "Scroll\nDn",
+            "keyCodes": [
+                -7,
+                0
+            ],
+            "width": 5,
+            "height": 4,
+            "alignmentHorizontal": 2,
+            "alignmentVertical": 2,
+            "offsetHorizontal": 7,
+            "offsetVertical": -9,
+            "showInGame": true,
+            "showInMenu": false
+        },
+        {
+            "type": "button",
+            "label": "HUD",
+            "keyCodes": [
+                -8,
+                0
+            ],
+            "width": 4,
+            "height": 3,
+            "alignmentHorizontal": 2,
+            "alignmentVertical": 0,
+            "offsetHorizontal": 1,
+            "offsetVertical": 1,
+            "showInGame": true,
+            "showInMenu": true
+        },
+        {
+            "type": "button",
+            "label": "Edit",
+            "keyCodes": [
+                -5,
+                0
+            ],
+            "width": 4,
+            "height": 3,
+            "alignmentHorizontal": 0,
+            "alignmentVertical": 0,
+            "offsetHorizontal": 1,
+            "offsetVertical": 12,
+            "showInGame": false,
+            "showInMenu": true
+        }
+    ]
+}

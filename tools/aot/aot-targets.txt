@@ -1,0 +1,54 @@
+# AOT target list for Vintage Story on android-arm64.
+#
+# Paths are relative to the game install root (the folder holding
+# Vintagestory.dll). Lines starting with # are comments.
+#
+# Scoped to the assemblies on the client's hot path. Deliberately EXCLUDED,
+# with reasons:
+#
+#   Microsoft.CodeAnalysis*, Microsoft.CodeAnalysis.CSharp
+#       Roslyn -- compiles C# mods at runtime via reflection/dynamic emit.
+#       Cannot be usefully AOT'd, and its presence is why --full-aot is off
+#       the table entirely.
+#   0Harmony, MonoMod.*, Mono.Cecil.*
+#       Runtime IL patching. Built on Reflection.Emit; AOT images would be
+#       ignored and the JIT path is required for them to work at all.
+#   GtkSharp, AtkSharp, GdkSharp, GioSharp, GLibSharp, PangoSharp, Eto*, Eto.Gtk
+#       Desktop GTK UI stack. Not used under the Android launcher, which drives
+#       a GLFW window instead.
+#   VintagestoryServer, VSCrashReporter*, VSCrashReporterLib, ModMaker*
+#       Server / tooling entry points; never loaded by the Android client.
+#   System.Private.ServiceModel, System.ServiceModel*
+#       WCF. Not reachable from the client render or tick path.
+#
+# Everything excluded still JITs normally. This list only decides where AOT
+# effort and image size go -- the measurable win is the render/tick path.
+
+Vintagestory.dll
+VintagestoryAPI.dll
+VintagestoryLib.dll
+
+# GL / windowing bindings -- thin, but called constantly
+Lib/OpenTK.Core.dll
+Lib/OpenTK.Graphics.dll
+Lib/OpenTK.Mathematics.dll
+Lib/OpenTK.Windowing.Common.dll
+Lib/OpenTK.Windowing.Desktop.dll
+Lib/OpenTK.Windowing.GraphicsLibraryFramework.dll
+Lib/OpenTK.Audio.OpenAL.dll
+
+# 2D / text rendering
+Lib/SkiaSharp.dll
+Lib/CairoSharp.dll
+Lib/cairo-sharp.dll
+Lib/AnimatedGif.dll
+
+# Serialization on the network + asset path
+Lib/Newtonsoft.Json.dll
+Lib/protobuf-net.dll
+Lib/ICSharpCode.SharpZipLib.dll
+
+# Misc client-path helpers
+Lib/Tavis.JsonPatch.dll
+Lib/JsonDiffPatch.dll
+Lib/xplatforminterface.dll

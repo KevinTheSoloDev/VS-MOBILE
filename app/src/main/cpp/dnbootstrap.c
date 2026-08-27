@@ -31,9 +31,12 @@ static void init_logger() {
     //pipe(pipefd);
     dup2(logfd, 1);
     dup2(logfd, 2);
+    close(logfd); // dup2 keeps the descriptors alive; the original fd is not needed
 
+    // Line-buffer both streams. stderr used to be fully unbuffered (_IONBF),
+    // which turns every log line into its own write() syscall.
     setvbuf(stdout, NULL, _IOLBF, 4096);
-    setvbuf(stderr, NULL, _IONBF, 0);
+    setvbuf(stderr, NULL, _IOLBF, 4096);
 }
 
 
@@ -51,8 +54,12 @@ static int dnb_find_hostfxr(const char* dotnet_root, char_t path_buf[PATH_MAX]) 
     return result;
 }
 
-static void dnb_run_v2(void* hostfxr_ptr, const char* dotnetRoot) {
+static int dnb_run_v2(void* hostfxr_ptr, const char* dotnetRoot) {
     hostfxr_main_startupinfo_fn main_startupinfo_fn = dlsym(hostfxr_ptr, "hostfxr_main_startupinfo");
+    if(main_startupinfo_fn == NULL) {
+        LOGE("dlsym(hostfxr_main_startupinfo) failed: %s", dlerror());
+        return -1;
+    }
     //setenv("MONO_ENV_OPTIONS", "--trace=T:Vintagestory.Client.NoObf.ShaderProgramFinal", true);
     //setenv("MONO_ENV_OPTIONS", "--interpreter", true);
     setenv("LIBGL_EGL", "libEGL_angle.so", true);
@@ -68,6 +75,7 @@ static void dnb_run_v2(void* hostfxr_ptr, const char* dotnetRoot) {
     pthread_setname_np(pthread_self(), "dnb main thread");
     int rc = main_startupinfo_fn(argc, argv, hostPath, dotnetRoot, appPath);
     LOGI("hostfxr done: %x", rc);
+    return rc;
 }
 
 __attribute((used)) void dnb_main(JavaVM *vm, jobject instance) {
@@ -86,18 +94,34 @@ Java_git_artdeell_dnbootstrap_MainActivity_runDotnet(JNIEnv *env, jobject thiz,
     init_logger();
 
     char_t path_buf[PATH_MAX];
+    path_buf[0] = 0;
     const char* dotnet_root = (*env)->GetStringUTFChars(env, dotnetRoot, NULL);
     uint32_t result = dnb_find_hostfxr(dotnet_root, path_buf);
 
     if(result != 0) {
-        LOGI("Cannot find hostfxr: %x", result);
+        // path_buf is undefined on failure -- dlopen'ing it would load whatever
+        // garbage happens to be on the stack, or segfault.
+        LOGE("Cannot find hostfxr: %x", result);
+        (*env)->ReleaseStringUTFChars(env, dotnetRoot, dotnet_root);
+        return;
     }
 
     void* hostfxr_ptr = dlopen(path_buf, RTLD_NOW);
+    if(hostfxr_ptr == NULL) {
+        LOGE("dlopen(%s) failed: %s", path_buf, dlerror());
+        (*env)->ReleaseStringUTFChars(env, dotnetRoot, dotnet_root);
+        return;
+    }
 
     const char* vs_dir = (*env)->GetStringUTFChars(env, vsDir, NULL);
-    chdir(vs_dir);
+    if(chdir(vs_dir) != 0) {
+        LOGE("chdir(%s) failed: %s", vs_dir, strerror(errno));
+    }
     (*env)->ReleaseStringUTFChars(env, vsDir, vs_dir);
 
-    dnb_run_v2(hostfxr_ptr, dotnet_root);
+    int rc = dnb_run_v2(hostfxr_ptr, dotnet_root);
+    (*env)->ReleaseStringUTFChars(env, dotnetRoot, dotnet_root);
+    if(rc != 0) {
+        LOGE("Vintage Story exited with %d", rc);
+    }
 }
